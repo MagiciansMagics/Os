@@ -23,7 +23,7 @@ i386-elf-gcc ${CC_FLAGS} "./graphics/font/print.c" -o "./bin/print.o"
 #           ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;           #
 
 
-i386-elf-ld -Ttext 0x9000 -o "./bin/kernel32.elf" "./bin/kernel_entry.o" "./bin/kernel.o" \
+i386-elf-ld -T "./linker.ld" -o "./bin/kernel32.elf" "./bin/kernel_entry.o" "./bin/kernel.o" \
     "./bin/draw.o"                      \
     "./bin/print.o"
 
