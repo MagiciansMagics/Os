@@ -4,7 +4,7 @@ void draw_pixel(uint16_t x, uint16_t y, uint32_t color)
 {
     static uint32_t *framebuffer = NULL;
     if (!framebuffer)
-        framebuffer = (uint32_t *)(*(uint32_t *)0x9028);
+        framebuffer = (uint32_t *)(*(uint32_t *)0x1028);
 
     uint32_t offset = y * WSCREEN + x;
 

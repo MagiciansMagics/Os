@@ -35,7 +35,7 @@ _start32:
 	mov esp, ebp
 
 	mov esi, mode_info_block
-    mov edi, 0x9000
+    mov edi, 0x1000
     mov ecx, 64                 ; Mode info block is 256 bytes / 4 = # of dbl words
     rep movsd
 
