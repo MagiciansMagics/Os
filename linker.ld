@@ -6,7 +6,6 @@ SECTIONS
     
     .text ALIGN(4K) :
     {
-        *(.multiboot)
         *(.text*)
     }
     
