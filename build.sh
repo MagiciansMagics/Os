@@ -1,7 +1,9 @@
 clear
 export PATH=/usr/local/i386elfgcc/bin:$PATH
 rm -rf bin/
+rm -rf a_debug/
 mkdir bin/
+mkdir a_debug/                              # a_debug just so it stays up on the folder listing(ocd: yes)
 
 CC_FLAGS="-g -m32 -ffreestanding -fno-pic -c"
 
@@ -25,9 +27,11 @@ i386-elf-gcc ${CC_FLAGS} "./graphics/font/print.c" -o "./bin/print.o"
 
 i386-elf-ld -T "./linker.ld" -o "./bin/kernel32.elf" "./bin/kernel_entry.o" "./bin/kernel.o" \
     "./bin/draw.o"                      \
-    "./bin/print.o"
+    "./bin/print.o"                     \
+    --Map="./a_debug/kernel32_map.txt"
 
 
+i386-elf-objdump -s "./bin/kernel32.elf" > "./a_debug/kernel32_hexdump.txt"
 
 #           ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;           #
 
