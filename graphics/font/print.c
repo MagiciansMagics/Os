@@ -10,7 +10,7 @@ const uint8_t* get_char_bitmap(char c)
 {
     if (c >= 1 && c <= 255)
     {
-        return &default_font[(c) * 32];
+        return &default_font[(c - 8) * 32];
     }
     return NULL;
 }
