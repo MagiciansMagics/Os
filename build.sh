@@ -20,11 +20,31 @@ i386-elf-gcc ${CC_FLAGS} "./graphics/draw/draw.c" -o "./bin/draw.o"
 
 i386-elf-gcc ${CC_FLAGS} "./graphics/font/print.c" -o "./bin/print.o"
 
+i386-elf-gcc ${CC_FLAGS} "./Include/string.c" -o "./bin/string.o"
+
+i386-elf-gcc ${CC_FLAGS} "./Include/IoPorts.c" -o "./bin/IoPorts.o"
+
+#inrerrupts
+
+nasm -f elf "./Interrupts/interrupts.asm" -o "./bin/interrupts.o"
+
+i386-elf-gcc ${CC_FLAGS} "./Interrupts/idt.c" -o "./bin/idt.o"
+
+i386-elf-gcc ${CC_FLAGS} "./Interrupts/irq.c" -o "./bin/irq.o"
+
+i386-elf-gcc ${CC_FLAGS} "./Interrupts/isr.c" -o "./bin/isr.o"
+
 #final build
 
 #           ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;           #
 
 i386-elf-ld -T "./linker.ld" -o "./bin/kernel32.elf" "./bin/kernel_entry.o" "./bin/kernel.o" \
+    "./bin/IoPorts.o"                   \
+    "./bin/string.o"                    \
+    "./bin/interrupts.o"                \
+    "./bin/idt.o"                       \
+    "./bin/irq.o"                       \
+    "./bin/isr.o"                       \
     "./bin/draw.o"                      \
     "./bin/print.o"                     \
     --Map="./a_debug/kernel32_map.txt"
@@ -52,7 +72,7 @@ dd if="./bin/kernel32.bin" of="./bin/os.img" bs=512 seek=5
 
 # Extend the os.img to the size of a 1.44M floppy (can be useful)
 
-truncate -s 1440k "./bin/os.img"                                    # NOT MADE BY ME. CREDITS TO mpetch at: https://www.reddit.com/r/osdev/comments/1ikv5ma/pm32_bit_confusing_c_printing_problem/
+truncate -s 1440k "./bin/os.img"                                    # NOT MADE BY ME. CREDITS TO sixteenlettername: https://www.reddit.com/r/osdev/comments/1ikv5ma/pm32_bit_confusing_c_printing_problem/
 
 #           ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;           #
 
