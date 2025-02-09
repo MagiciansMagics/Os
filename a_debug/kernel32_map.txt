@@ -8,7 +8,7 @@ Linker script and memory map
 
                 0x0000000000009000                . = 0x9000
 
-.text           0x0000000000009000      0x5d5
+.text           0x0000000000009000      0x5d2
  *(.text*)
  .text          0x0000000000009000      0x200 ./bin/kernel_entry.o
                 0x0000000000009004                _start
@@ -17,13 +17,13 @@ Linker script and memory map
  .text          0x0000000000009240      0x1db ./bin/draw.o
                 0x0000000000009240                draw_pixel
                 0x00000000000093d6                rgba_to_hex
- .text          0x000000000000941b      0x1ba ./bin/print.o
+ .text          0x000000000000941b      0x1b7 ./bin/print.o
                 0x000000000000941b                get_char_bitmap
-                0x0000000000009445                put_char
-                0x00000000000095a6                put_string
+                0x0000000000009442                put_char
+                0x00000000000095a3                put_string
 
-.iplt           0x00000000000095d5        0x0
- .iplt          0x00000000000095d5        0x0 ./bin/kernel_entry.o
+.iplt           0x00000000000095d2        0x0
+ .iplt          0x00000000000095d2        0x0 ./bin/kernel_entry.o
 
 .rodata         0x000000000000a000       0x15
  *(.rodata*)
@@ -81,10 +81,10 @@ OUTPUT(./bin/kernel32.elf elf32-i386)
  .debug_aranges
                 0x0000000000000040       0x20 ./bin/print.o
 
-.debug_line     0x0000000000000000      0x28e
+.debug_line     0x0000000000000000      0x28b
  .debug_line    0x0000000000000000       0x54 ./bin/kernel.o
  .debug_line    0x0000000000000054      0x112 ./bin/draw.o
- .debug_line    0x0000000000000166      0x128 ./bin/print.o
+ .debug_line    0x0000000000000166      0x125 ./bin/print.o
 
 .debug_str      0x0000000000000000      0x1a3
  .debug_str     0x0000000000000000       0xb3 ./bin/kernel.o

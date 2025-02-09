@@ -24,7 +24,6 @@ i386-elf-gcc ${CC_FLAGS} "./graphics/font/print.c" -o "./bin/print.o"
 
 #           ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;           #
 
-
 i386-elf-ld -T "./linker.ld" -o "./bin/kernel32.elf" "./bin/kernel_entry.o" "./bin/kernel.o" \
     "./bin/draw.o"                      \
     "./bin/print.o"                     \
@@ -37,11 +36,25 @@ i386-elf-objdump -s "./bin/kernel32.elf" > "./a_debug/kernel32_hexdump.txt"
 
 i386-elf-objcopy -O binary "./bin/kernel32.elf" "./bin/kernel32.bin"
 
-cat "./bin/stage1_bootloader.bin" "./bin/stage2_bootloader.bin" > "./bin/bootloader.bin"
+#           ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;           
 
-cat "./bin/bootloader.bin" "./bin/kernel32.bin" > "./bin/os.bin"
+# Place first stage starting at sector 1 (LBA=0)
 
-dd if="./bin/os.bin" of="./bin/os.img" bs=512
+dd if="./bin/stage1_bootloader.bin" of="./bin/os.img" bs=512
+
+# Place second stage starting at sector 2 (LBA=1)
+
+dd if="./bin/stage2_bootloader.bin" of="./bin/os.img" bs=512 seek=1
+
+# Place kernel starting at sector 6 (LBA=5)
+
+dd if="./bin/kernel32.bin" of="./bin/os.img" bs=512 seek=5
+
+# Extend the os.img to the size of a 1.44M floppy (can be useful)
+
+truncate -s 1440k "./bin/os.img"                                    # NOT MADE BY ME. CREDITS TO sixteenlettername: https://www.reddit.com/r/osdev/comments/1ikv5ma/pm32_bit_confusing_c_printing_problem/
+
+#           ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;           #
 
 #run
 
