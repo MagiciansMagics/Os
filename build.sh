@@ -26,6 +26,13 @@ i386-elf-gcc ${CC_FLAGS} "./Include/IoPorts.c" -o "./bin/IoPorts.o"
 
 i386-elf-gcc ${CC_FLAGS} "./Include/malloc.c" -o "./bin/malloc.o"
 
+i386-elf-gcc ${CC_FLAGS} "./event_handler/event_handler.c" -o "./bin/event_handler.o"
+i386-elf-gcc ${CC_FLAGS} "./event_handler/event_queue.c" -o "./bin/event_queue.o"
+
+i386-elf-gcc ${CC_FLAGS} "./drivers/keyboard/keyboard.c" -o "./bin/keyboard.o"
+
+i386-elf-gcc ${CC_FLAGS} "./graphics/screen/screen.c" -o "./bin/screen.o"
+
 #inrerrupts
 
 nasm -f elf "./Interrupts/interrupts.asm" -o "./bin/interrupts.o"
@@ -50,6 +57,10 @@ i386-elf-ld -T "./linker.ld" -o "./bin/kernel32.elf" "./bin/kernel_entry.o" "./b
     "./bin/isr.o"                       \
     "./bin/draw.o"                      \
     "./bin/print.o"                     \
+    "./bin/event_queue.o"               \
+    "./bin/event_handler.o"             \
+    "./bin/keyboard.o"                  \
+    "./bin/screen.o"                    \
     --Map="./a_debug/kernel32_map.txt"
 
 

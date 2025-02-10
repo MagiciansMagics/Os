@@ -11,6 +11,14 @@ void* memset(void* dest, unsigned char val, size_t count)
 	return dest;
 }
 
+void *memcpy(void *dst, const void *src, uint32_t len)
+{
+    for (uint32_t i = 0; i < len; i++)
+        ((uint8_t *)dst)[i] = ((uint8_t *)src)[i];
+
+    return dst;
+}
+
 // Convertations
 
 char* itoa(int value, char* str, int base) 

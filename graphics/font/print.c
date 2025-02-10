@@ -85,12 +85,25 @@ void print(const char *fmt, ...)
                 case 'x':
                 {
                     int num = va_arg(args, int);
-                    itoa(num, buffer, 16);  // Convert integer to hex string
+                    itoa(num, buffer, 16);
                     for (char* p = buffer; *p; p++)
                     {
                         put_char(*p, print_color);
                     }
                     break;
+                }
+                case 's':
+                {
+                    const char* str = va_arg(args, const char*);
+                    for (; *str; str++)
+                    {
+                        put_char(*str, print_color);
+                    }
+                }
+                case 'c':
+                {
+                    char ch = (char)va_arg(args, int);
+                    put_char(ch, print_color);
                 }
                 default:          // used % but not allowed type
                     break;

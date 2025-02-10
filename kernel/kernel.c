@@ -1,8 +1,7 @@
 #include "../Interrupts/idt.h"
 #include "../Interrupts/irq.h"
 #include "../Interrupts/isr.h"
-
-#include "../Include/malloc.h"
+#include "../graphics/screen/screen.h"
 
 void main()
 {
@@ -12,6 +11,12 @@ void main()
     asm volatile ("sti");
 
     Memory_Init();
+
+    InitKeyboard();
+
+    screen_init();
+
+    handle_screen();
 
     for(;;); // does same thing as in halt.asm
 }
