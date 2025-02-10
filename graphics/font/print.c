@@ -1,10 +1,10 @@
 #include "./print.h"
 #include "../draw/draw.h"
 #include "./font.h"
-#include <stdbool.h>
 
 int print_cursor_x = 0;
 int print_cursor_y = 0;
+uint32_t print_color = 0xFFC8C8C8;
 
 const uint8_t* get_char_bitmap(char c)
 {
@@ -57,11 +57,52 @@ void put_char(char c, uint32_t color)
     print_cursor_x += 12;
 }
 
-void put_string(char* str, uint32_t color)
+void print(const char *fmt, ...)
 {
-    while (*str)
+    va_list args;
+    va_start(args, fmt);
+
+    char buffer[32];
+
+    while (*fmt)
     {
-        put_char(*str, color);
-        str++;
+        if (*fmt == '%')
+        {
+            fmt++;          // just skips the %, nothing important.
+
+            switch (*fmt)
+            {
+                case 'd':           // integer
+                {
+                    int num = va_arg(args, int);
+                    itoa(num, buffer, 10);
+                    for (char* p = buffer; *p; p++)
+                    {
+                        put_char(*p, print_color);
+                    }
+                    break;
+                }
+                case 'x':
+                {
+                    int num = va_arg(args, int);
+                    itoa(num, buffer, 16);  // Convert integer to hex string
+                    for (char* p = buffer; *p; p++)
+                    {
+                        put_char(*p, print_color);
+                    }
+                    break;
+                }
+                default:          // used % but not allowed type
+                    break;
+            }
+        }
+        else
+        {
+            put_char(*fmt, print_color);
+        }
+
+        fmt++;
     }
+
+    va_end(args);
 }

@@ -24,6 +24,8 @@ i386-elf-gcc ${CC_FLAGS} "./Include/string.c" -o "./bin/string.o"
 
 i386-elf-gcc ${CC_FLAGS} "./Include/IoPorts.c" -o "./bin/IoPorts.o"
 
+i386-elf-gcc ${CC_FLAGS} "./Include/malloc.c" -o "./bin/malloc.o"
+
 #inrerrupts
 
 nasm -f elf "./Interrupts/interrupts.asm" -o "./bin/interrupts.o"
@@ -41,6 +43,7 @@ i386-elf-gcc ${CC_FLAGS} "./Interrupts/isr.c" -o "./bin/isr.o"
 i386-elf-ld -T "./linker.ld" -o "./bin/kernel32.elf" "./bin/kernel_entry.o" "./bin/kernel.o" \
     "./bin/IoPorts.o"                   \
     "./bin/string.o"                    \
+    "./bin/malloc.o"                    \
     "./bin/interrupts.o"                \
     "./bin/idt.o"                       \
     "./bin/irq.o"                       \

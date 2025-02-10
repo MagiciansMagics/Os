@@ -7,5 +7,7 @@
 #include <stddef.h>
 
 void* memset(void* dest, unsigned char val, size_t count);
+int hextstr(const char* c);
+char* itoa(int value, char* str, int base);
 
 #endif
