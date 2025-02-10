@@ -5,4 +5,4 @@
 <li>Malloc: Done(Note: It should work)</li><br>
 <li>Event-Driven Architecture: Almost supported...</li><br>
 
-<h2>Credits to mpetch for fixing part of my "build.sh" file. Find it at: https://www.reddit.com/r/osdev/comments/1ikv5ma/pm32_bit_confusing_c_printing_problem/</h2>
+<h3>Credits to mpetch for fixing part of my "build.sh" file. Find it at: https://www.reddit.com/r/osdev/comments/1ikv5ma/pm32_bit_confusing_c_printing_problem/</h3>
