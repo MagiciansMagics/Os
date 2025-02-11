@@ -1,4 +1,4 @@
-<h1>A simple os with 1920x1080 and 32bpp(bytes per pixel).</h1>
+<h1>A simple 32 bit operating system</h1>
 
 <li>Support full RGBA: Done</li><br>
 <li>Interrupts: Done</li><br>
