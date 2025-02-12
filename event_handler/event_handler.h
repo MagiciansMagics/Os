@@ -8,7 +8,6 @@
 
 #pragma once
 
-void process_event(Event *event, EventType event_type);
-void process_pending_events(void (*event_handler)(Event *, EventType));
+void handle_events();
 
 #endif

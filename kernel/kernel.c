@@ -1,7 +1,10 @@
 #include "../Interrupts/idt.h"
 #include "../Interrupts/irq.h"
 #include "../Interrupts/isr.h"
-#include "../graphics/screen/screen.h"
+#include "../Include/malloc.h"
+#include "../drivers/keyboard/keyboard.h"
+#include "../event_handler/event_handler.h"
+#include "../event_handler/event_queue.h"
 
 void main()
 {
@@ -14,9 +17,12 @@ void main()
 
     InitKeyboard();
 
-    screen_init();
+    init_event_queue(); // Initialize the event queue
 
-    handle_screen();
+    while (1)
+    {
+        handle_events();
+    }
 
     for(;;); // does same thing as in halt.asm
 }

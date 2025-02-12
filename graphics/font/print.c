@@ -27,6 +27,13 @@ void put_char(char c, uint32_t color)
     const uint8_t* bitmap = get_char_bitmap(c);
     if (!bitmap) return;
 
+    if (print_cursor_x >= WSCREEN && HSCREEN >= print_cursor_y)
+    {
+        print_cursor_y += 16;
+        print_cursor_x = 0;
+    }
+
+
     for (uint16_t row = 0; row < 16; row++)
     {
         uint8_t row_data1 = bitmap[row * 2];

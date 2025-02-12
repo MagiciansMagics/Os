@@ -8,6 +8,7 @@
 #pragma once
 
 #define MAX_EVENTS 100
+#define NOEVENT 0
 
 typedef enum 
 {
@@ -17,16 +18,35 @@ typedef enum
     EVENT_WINDOW_UPDATE,
 } EventType;
 
+typedef enum
+{
+    KEYBOARD_NONE,
+    KEYBOARD_TYPE,
+    KEYBOARD_PRESSED,
+    KEYBOARD_RELEASED,
+    KEYBOARD_ENTER
+} KeyboardEventType;
+
+typedef enum
+{
+    MOUSE_NONE,
+    MOUSE_MOVED,
+    MOUSE_CLICKED,
+    MOUSE_RELEASED,
+    MOUSE_SCROLLED
+} MouseEventType;
+
 typedef struct 
 {
     EventType type;
-    void* data; // Can store additional data (e.g., keycode, mouse position)
+    int subtype; // Use this for specific event details (keyboard/mouse/etc.)
+    void* data;  // Can store additional event-specific data
 } Event;
 
-static Event event_queue[MAX_EVENTS];
-
-bool is_event_queue_empty();
-void push_event(Event event);
-bool pop_event(Event *event);
+int init_event_queue();
+int add_event(Event event);
+int remove_event(int index);
+int clear_event_queue();
+Event* return_event_queue();
 
 #endif

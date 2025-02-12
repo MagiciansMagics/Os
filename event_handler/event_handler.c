@@ -1,37 +1,65 @@
 #include "./event_handler.h"
 #include "../graphics/font/print.h"
 
-void process_event(Event *event, EventType event_type)
+extern int event_count;
+
+int process_event()
 {
-    switch (event_type)
+    return 0;
+}
+
+int handle_keyboard_events(Event* queue, int index)
+{
+    switch (queue[index].subtype)
     {
-        case EVENT_NONE:
+        case KEYBOARD_NONE:
             break;
-        case EVENT_KEYBOARD:
+
+        case KEYBOARD_TYPE: // pressed a normal character
         {
-            char* text_buffer = (char*) event->data;
-            // here handle some way of making sure when is what for the keyboard to send data etc
+            if (queue[index].data)
+            {
+                char character = ((char*)queue[index].data)[0];
+                print("%c", character);
+            }  
+            break;
+        }
+
+        case KEYBOARD_PRESSED: // pressing down shift etc
+            break;
+
+        case KEYBOARD_RELEASED: // released from buttons such as shift etc
+            break;
+
+        case KEYBOARD_ENTER:
+        {
             print("\n");
             break;
         }
-        case EVENT_MOUSEMOVE:
-            // draw it another position etc
-            break;
-        case EVENT_WINDOW_UPDATE:
-            // simply swap buffers as this is requested
-            break;
     }
+    return 0;
 }
 
-void process_pending_events(void (*event_handler)(Event *, EventType))
+void handle_events()
 {
-    Event current_event;
+    Event* queue = return_event_queue();
 
-    while (!is_event_queue_empty())
+    for (int i = 0; i < event_count; i++)
     {
-        if (pop_event(&current_event))
+        switch (queue[i].type)
         {
-            process_event(&current_event, current_event.type);
+            case EVENT_NONE:
+            {
+                remove_event(i);
+                break; // simply do nothing as it says
+            }
+
+            case EVENT_KEYBOARD:
+            {
+                handle_keyboard_events(queue, i);
+                remove_event(i);
+                break;
+            }
         }
     }
 }

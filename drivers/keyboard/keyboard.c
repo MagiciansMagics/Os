@@ -53,10 +53,10 @@ void KeyboardHandler()
             {
                 if (isPress)
                 {
-                    Event event = {EVENT_KEYBOARD, (void*)text_buffer};
-                    push_event(event);                                      // store the event
+                    Event event = {EVENT_KEYBOARD, KEYBOARD_ENTER, &text_buffer};
+                    add_event(event);
                     memset(text_buffer, 0, sizeof(text_buffer));
-                    text_length = 0;    
+                    text_length = 0; 
                 }
                 break;
             }
@@ -86,7 +86,8 @@ void KeyboardHandler()
                         text_length++;
                         text_buffer[text_length] = '\0';
 
-                        print("%c", character);
+                        Event event = {EVENT_KEYBOARD, KEYBOARD_TYPE, &character};
+                        add_event(event);
                     }
                 }
                 break;
