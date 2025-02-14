@@ -1,0 +1,2 @@
+halt:
+    jmp halt
