@@ -3,6 +3,7 @@
 <li>Support full RGBA: Done</li><br>
 <li>Interrupts: Done</li><br>
 <li>Malloc: Done(Note: It should work)</li><br>
+<li>Keyboard: Done</li><br>
 <li>Event-Driven Architecture: Done</li><br>
 <li>Timer: Done</li><br>
 
