@@ -4,6 +4,7 @@
 <li>Interrupts: Done</li><br>
 <li>Malloc: Done(Note: It should work)</li><br>
 <li>Event-Driven Architecture: Done</li><br>
+<li>Timer: Done</li><br>
 
 <p>Notes: FUCK UEFI. Can't even boot that thing on my pc<br>
 Will continue my project as it is with the custom bootloader</p>
