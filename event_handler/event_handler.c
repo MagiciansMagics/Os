@@ -1,20 +1,18 @@
 #include "./event_handler.h"
 #include "../graphics/font/print.h"
+#include "../Include/string.h"
 
 extern int event_count;
 
-int process_event()
+int is_event_queue_empty()
 {
-    return 0;
+    return event_count == 0;
 }
 
 int handle_keyboard_events(Event* queue, int index)
 {
     switch (queue[index].subtype)
     {
-        case KEYBOARD_NONE:
-            break;
-
         case KEYBOARD_TYPE: // pressed a normal character
         {
             if (queue[index].data)
@@ -27,11 +25,33 @@ int handle_keyboard_events(Event* queue, int index)
         
         case KEYBOARD_ENTER:
         {
-            print("\n");
+            char* cmd = (char*)queue[index].data;
+            handle_terminal_cmd(cmd);
+            break;
+        }
+
+        default:                // unknown subtype
+            break;
+    }
+    return 0;
+}
+
+int handle_mouse_events(Event* queue, int index)
+{
+    switch (queue[index].subtype)
+    {
+        case MOUSE_MOVED:
+        {
+            // handle drawing and removing the mouse here
+            break;
+        }
+
+        case MOUSE_CLICKED:
+        {
+            // here make it handle if its currently over a gui and pressing etc.
             break;
         }
     }
-    return 0;
 }
 
 int handle_window_events(Event* queue, int index)
@@ -47,7 +67,11 @@ int handle_window_events(Event* queue, int index)
 
 void handle_events()
 {
+    if (is_event_queue_empty()) return;
+
     Event* queue = return_event_queue();
+
+    if (!queue) return;
 
     for (int i = 0; i < event_count; i++)
     {
@@ -62,6 +86,19 @@ void handle_events()
             case EVENT_KEYBOARD:
             {
                 handle_keyboard_events(queue, i);
+                remove_event(i);
+                break;
+            }
+
+            case EVENT_MOUSE:
+            {
+                handle_mouse_events(queue, i);
+                remove_event(i);
+                break;
+            }
+
+            default:            // unknown event
+            {
                 remove_event(i);
                 break;
             }

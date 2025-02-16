@@ -14,13 +14,12 @@ typedef enum
 {
     EVENT_NONE,
     EVENT_KEYBOARD,
-    EVENT_MOUSEMOVE,
+    EVENT_MOUSE,
     EVENT_WINDOW,
 } EventType;
 
 typedef enum
 {
-    KEYBOARD_NONE,
     KEYBOARD_TYPE,
     KEYBOARD_PRESSED,
     KEYBOARD_RELEASED,
@@ -29,10 +28,8 @@ typedef enum
 
 typedef enum
 {
-    MOUSE_NONE,
     MOUSE_MOVED,
     MOUSE_CLICKED,
-    MOUSE_RELEASED,
     MOUSE_SCROLLED
 } MouseEventType;
 

@@ -58,3 +58,13 @@ char* itoa(int value, char* str, int base)
 
     return str;
 }
+
+int16_t strcmp(const uint8_t *string1, const uint8_t *string2)
+{
+    while (*string1 && *string1 == *string2) {
+        string1++;
+        string2++;
+    }
+
+    return *string1 - *string2;
+}

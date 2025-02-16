@@ -64,6 +64,15 @@ void put_char(char c, uint32_t color)
     print_cursor_x += 12;
 }
 
+void put_string(const char* str, uint32_t color)
+{
+    while (*str)
+    {
+        put_char(*str, color);
+        str++;
+    }
+}
+
 void print(const char *fmt, ...)
 {
     va_list args;

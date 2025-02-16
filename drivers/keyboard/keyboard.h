@@ -6,6 +6,7 @@
 #include <stdbool.h>
 #include "../../Include/IoPorts.h"
 #include "../../Interrupts/irq.h"
+#include "../../graphics/draw/draw.h"
 
 #pragma once
 

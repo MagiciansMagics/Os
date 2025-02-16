@@ -3,6 +3,9 @@
 #include "../../event_handler/event_handler.h"
 #include "../../Include/string.h"
 
+extern int print_cursor_x;
+extern int print_cursor_y;
+
 bool allowed_input = true;
 
 bool shift = false;
@@ -27,6 +30,19 @@ const char* uppercase[] = {
     "J", "K", "L", ":", "\"", "~", " ", "|", "Z", "X", "C", "V",
     "B", "N", "M", "<", ">", "?", " ", " ", " ", " "
 };
+
+void clear_last_char(uint32_t color)
+{
+    print_cursor_x -= 12;
+
+    for (int y = 0; y < 16; y++)
+    {
+        for (int x = 0; x < 12; x++)
+        {
+            draw_pixel(print_cursor_x + x, print_cursor_y + y, color);
+        }
+    }
+}
 
 void KeyboardHandler()
 {
@@ -55,7 +71,6 @@ void KeyboardHandler()
                 {
                     Event event = {EVENT_KEYBOARD, KEYBOARD_ENTER, &text_buffer};
                     add_event(event);
-                    memset(text_buffer, 0, sizeof(text_buffer));
                     text_length = 0; 
                 }
                 break;
@@ -65,6 +80,30 @@ void KeyboardHandler()
             case 0x5C:  // Right Windows Key
                 winpressed = isPress;
                 break;
+
+            case 0x0E:          // backspace
+            {
+                if (isPress)
+                {
+                    if (text_length == 0) return;
+                    text_length--;
+                    text_buffer[text_length] = '\0';
+                    clear_last_char(rgba_to_hex(0, 0, 0, 255));
+                }
+                break;
+            }
+
+            case 0x53:              // delete
+            {
+                if (isPress)
+                {
+                    if (text_length == 0) return;
+                    text_length--;
+                    text_buffer[text_length] = '\0';
+                    clear_last_char(rgba_to_hex(0, 0, 0, 255));
+                }
+                break;
+            }
 
             default:
                 if (isPress && scan < sizeof(lowercase) / sizeof(lowercase[0])) 

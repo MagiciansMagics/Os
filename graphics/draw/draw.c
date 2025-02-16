@@ -2,10 +2,7 @@
 
 void draw_pixel(uint16_t x, uint16_t y, uint32_t color)
 {
-    static uint32_t *framebuffer = NULL;
-    if (!framebuffer)
-        framebuffer = (uint32_t *)(*(uint32_t *)0x1028);
-
+    uint32_t *framebuffer = return_framebuffer();
     uint32_t offset = y * WSCREEN + x;
 
     uint8_t src_a = (color >> 24) & 0xFF;
@@ -29,6 +26,23 @@ void draw_pixel(uint16_t x, uint16_t y, uint32_t color)
     uint8_t out_b = (src_b * src_a + dest_b * (255 - src_a)) / 255;
 
     framebuffer[offset] = (src_a << 24) | (out_r << 16) | (out_g << 8) | out_b;
+}
+
+void clear_screen(uint32_t color)
+{
+    for (int y = 0; y < HSCREEN; y++)
+    {
+        for (int x = 0; x < WSCREEN; x++)
+        {
+            draw_pixel(x, y, color);
+        }
+    }
+}
+
+uint32_t return_pixel_color(int x, int y)
+{
+    uint32_t *framebuffer = return_framebuffer();
+    return framebuffer[y * WSCREEN + x];
 }
 
 uint32_t rgba_to_hex(uint8_t r, uint8_t g, uint8_t b, uint8_t a) 

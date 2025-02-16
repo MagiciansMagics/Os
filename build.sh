@@ -26,6 +26,8 @@ i386-elf-gcc ${CC_FLAGS} "./Include/IoPorts.c" -o "./bin/IoPorts.o"
 
 i386-elf-gcc ${CC_FLAGS} "./Include/malloc.c" -o "./bin/malloc.o"
 
+i386-elf-gcc ${CC_FLAGS} "./graphics/screen/screen.c" -o "./bin/screen.o"
+
 i386-elf-gcc ${CC_FLAGS} "./Include/time.c" -o "./bin/time.o"
 
 i386-elf-gcc ${CC_FLAGS} "./event_handler/event_handler.c" -o "./bin/event_handler.o"
@@ -33,6 +35,10 @@ i386-elf-gcc ${CC_FLAGS} "./event_handler/event_handler.c" -o "./bin/event_handl
 i386-elf-gcc ${CC_FLAGS} "./event_handler/event_queue.c" -o "./bin/event_queue.o"
 
 i386-elf-gcc ${CC_FLAGS} "./drivers/keyboard/keyboard.c" -o "./bin/keyboard.o"
+
+i386-elf-gcc ${CC_FLAGS} "./drivers/mouse/mouse.c" -o "./bin/mouse.o"
+
+i386-elf-gcc ${CC_FLAGS} "./terminal/terminal.c" -o "./bin/terminal.o"
 
 #inrerrupts
 
@@ -56,12 +62,15 @@ i386-elf-ld -T "./linker.ld" -o "./bin/kernel32.elf" "./bin/kernel_entry.o" "./b
     "./bin/idt.o"                       \
     "./bin/irq.o"                       \
     "./bin/isr.o"                       \
+    "./bin/screen.o"                    \
     "./bin/time.o"                      \
     "./bin/draw.o"                      \
     "./bin/print.o"                     \
     "./bin/event_queue.o"               \
     "./bin/event_handler.o"             \
     "./bin/keyboard.o"                  \
+    "./bin/mouse.o"                     \
+    "./bin/terminal.o"                  \
     --Map="./a_debug/kernel32_map.txt"
 
 
