@@ -6,6 +6,7 @@
 #include <stdbool.h>
 #include "./event_queue.h"
 #include "../terminal/terminal.h"
+#include "../filesystem/filesystem.h"
 
 #pragma once
 

@@ -6,8 +6,12 @@
 #include "../Include/string.h"
 #include "../graphics/font/print.h"
 #include "../graphics/draw/draw.h"
+#include "../filesystem/filesystem.h"
+#include "../event_handler/event_queue.h"
 
 #pragma once
+
+#define MAX_ARGS 10
 
 void handle_terminal_cmd(char* command);
 

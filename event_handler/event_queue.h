@@ -23,7 +23,8 @@ typedef enum
     KEYBOARD_TYPE,
     KEYBOARD_PRESSED,
     KEYBOARD_RELEASED,
-    KEYBOARD_ENTER
+    KEYBOARD_ENTER,
+    KEYBOARD_FILE_EDITING,
 } KeyboardEventType;
 
 typedef enum

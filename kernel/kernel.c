@@ -3,6 +3,7 @@
 #include "../Interrupts/irq.h"
 #include "../Interrupts/isr.h"
 #include "../Include/malloc.h"
+#include "../filesystem/filesystem.h"
 #include "../Include/time.h"
 #include "../drivers/keyboard/keyboard.h"
 #include "../drivers/mouse/mouse.h"
@@ -16,7 +17,9 @@ void main()
     irq_install();
     asm volatile ("sti");
 
-    init_screen();
+    init_filesystem();
+
+    init_screen(); // DO NOT TRY TO PRINT BEFORE THIS FUNCTION IS EXECUTED
 
     time_init();
 

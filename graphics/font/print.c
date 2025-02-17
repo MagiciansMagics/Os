@@ -84,11 +84,11 @@ void print(const char *fmt, ...)
     {
         if (*fmt == '%')
         {
-            fmt++;          // just skips the %, nothing important.
+            fmt++;
 
             switch (*fmt)
             {
-                case 'd':           // integer
+                case 'd': 
                 {
                     int num = va_arg(args, int);
                     itoa(num, buffer, 10);
@@ -108,6 +108,16 @@ void print(const char *fmt, ...)
                     }
                     break;
                 }
+                case 'u':
+                {
+                    uint32_t num = va_arg(args, uint32_t);
+                    itoa(num, buffer, 10);
+                    for (char* p = buffer; *p; p++)
+                    {
+                        put_char(*p, print_color);
+                    }
+                    break;
+                }
                 case 's':
                 {
                     const char* str = va_arg(args, const char*);
@@ -115,13 +125,15 @@ void print(const char *fmt, ...)
                     {
                         put_char(*str, print_color);
                     }
+                    break;
                 }
                 case 'c':
                 {
                     char ch = (char)va_arg(args, int);
                     put_char(ch, print_color);
+                    break;
                 }
-                default:          // used % but not allowed type
+                default:
                     break;
             }
         }

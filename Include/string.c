@@ -68,3 +68,23 @@ int16_t strcmp(const uint8_t *string1, const uint8_t *string2)
 
     return *string1 - *string2;
 }
+
+uint8_t *strncpy(uint8_t *dst, const uint8_t *src, const uint8_t len)
+{
+    for (uint8_t i = 0; src[i] && i < len; i++)
+        dst[i] = src[i];
+
+    return dst;
+}
+
+uint8_t strlen(const uint8_t *string)
+{
+    uint8_t len = 0;
+
+    while (*string) {
+        string++;
+        len++;
+    }
+
+    return len;
+}
