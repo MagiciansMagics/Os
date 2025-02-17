@@ -80,7 +80,29 @@ void handle_terminal_cmd(char* command)
         }
         else
         {
-            edit_file(args[1], args[2]);
+            size_t total_length = 0;
+            for (int i = 2; i < args_count; i++)
+            {
+                total_length += strlen(args[i]) + 1;
+            }
+
+            char *full_data = (char *)AllocateMemory(total_length);
+            if (!full_data)
+            {
+                return;
+            }
+
+
+            full_data[0] = '\0';
+            for (int i = 2; i < args_count; i++)
+            {
+                strcat(full_data, args[i]);
+                if (i < args_count - 1)
+                    strcat(full_data, " ");
+            }
+
+            edit_file(args[1], full_data);
+            DeallocateMemory(full_data);
         }
     }
     else if (strcmp(args[0], "cat") == 0)

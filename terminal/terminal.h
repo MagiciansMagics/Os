@@ -8,6 +8,8 @@
 #include "../graphics/draw/draw.h"
 #include "../filesystem/filesystem.h"
 #include "../event_handler/event_queue.h"
+#include "../Include/malloc.h"
+#include "../Include/string.h"
 
 #pragma once
 
