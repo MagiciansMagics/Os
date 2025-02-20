@@ -5,8 +5,8 @@
 #include "../Include/malloc.h"
 #include "../filesystem/filesystem.h"
 #include "../Include/time.h"
-#include "../drivers/keyboard/keyboard.h"
-#include "../drivers/mouse/mouse.h"
+#include "../Hardware/keyboard/keyboard.h"
+#include "../Hardware/mouse/mouse.h"
 #include "../event_handler/event_handler.h"
 #include "../event_handler/event_queue.h"
 
@@ -29,7 +29,7 @@ void main()
 
     init_mouse();
 
-    init_event_queue(); // Initialize the event queue
+    init_event_queue();
 
     print("Command: ");
 

@@ -2,6 +2,7 @@
 
 extern int print_cursor_x;
 extern int print_cursor_y;
+extern uint32_t print_color;
 
 #define MAX_ARGS 10
 
@@ -43,13 +44,14 @@ void handle_terminal_cmd(char* command)
 
     if (strcmp(args[0], "help") == 0)
     {
-        put_string("\n\nAvailable commands: \n",                                        rgba_to_hex(0, 255, 0, 255));
-        put_string("    help                        - Displays all commands\n",         rgba_to_hex(0, 255, 0, 255));
-        put_string("    clear                       - Clears the screen\n",             rgba_to_hex(0, 255, 0, 255));
-        put_string("    touch <filename>            - Creates an empty file\n",         rgba_to_hex(0, 255, 0, 255));
-        put_string("    rm    <filename>            - Deletes selected file\n",         rgba_to_hex(0, 255, 0, 255));
-        put_string("    edit  <filename> <data>     - Edits the files data\n",          rgba_to_hex(0, 255, 0, 255));
-        put_string("    ls                          - Displays all files\n",            rgba_to_hex(0, 255, 0, 255));
+        print("\n\nAvailable commands: \n");
+        print("    help                        - Displays all commands\n");
+        print("    clear                       - Clears the screen\n");
+        print("    touch <filename>            - Creates an empty file\n");
+        print("    rm    <filename>            - Deletes selected file\n");
+        print("    edit  <filename> <data>     - Edits the files data\n");
+        print("    ls                          - Displays all files\n");
+        print("    lscpu                       - Prints your cpu info\n");
     }
     else if (strcmp(args[0], "clear") == 0)
     {
@@ -61,7 +63,7 @@ void handle_terminal_cmd(char* command)
     {
         if (args_count < 2)
         {
-            put_string("\nError: Missing filename", rgba_to_hex(255, 0, 0, 255));
+            print("\nError: Missing filename");
         }
         else
         {
@@ -76,7 +78,7 @@ void handle_terminal_cmd(char* command)
     {
         if (args_count < 3)
         {
-            put_string("\nError: Missing filename or data", rgba_to_hex(255, 0, 0, 255));
+            print("\nError: Missing filename or data");
         }
         else
         {
@@ -109,7 +111,7 @@ void handle_terminal_cmd(char* command)
     {
         if (args_count < 2)
         {
-            put_string("\nError: Missing filename", rgba_to_hex(255, 0, 0, 255));
+            print("\nError: Missing filename");
         }
         else
         {
@@ -120,12 +122,19 @@ void handle_terminal_cmd(char* command)
     {
         if (args_count < 2)
         {
-            put_string("\nError: Missing filename", rgba_to_hex(255, 0, 0, 255));
+            print("\nError: Missing filename");
         }
         else
         {
             delete_file(args[1]);
         }
+    }
+    else if (strcmp(args[0], "lscpu") == 0)
+    {
+        char vendor[13];
+        get_cpu_vendor(vendor);
+        print("\n\nCpu info:\n");
+        print("    Cpu vendor: %s\n\n", vendor);
     }
 
     memset(command, 0, sizeof(command));

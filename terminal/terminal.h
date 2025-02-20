@@ -10,6 +10,7 @@
 #include "../event_handler/event_queue.h"
 #include "../Include/malloc.h"
 #include "../Include/string.h"
+#include "../Hardware/cpu/cpu.h"
 
 #pragma once
 

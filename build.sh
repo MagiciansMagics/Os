@@ -34,9 +34,11 @@ i386-elf-gcc ${CC_FLAGS} "./event_handler/event_handler.c" -o "./bin/event_handl
 
 i386-elf-gcc ${CC_FLAGS} "./event_handler/event_queue.c" -o "./bin/event_queue.o"
 
-i386-elf-gcc ${CC_FLAGS} "./drivers/keyboard/keyboard.c" -o "./bin/keyboard.o"
+i386-elf-gcc ${CC_FLAGS} "./Hardware/keyboard/keyboard.c" -o "./bin/keyboard.o"
 
-i386-elf-gcc ${CC_FLAGS} "./drivers/mouse/mouse.c" -o "./bin/mouse.o"
+i386-elf-gcc ${CC_FLAGS} "./Hardware/mouse/mouse.c" -o "./bin/mouse.o"
+
+i386-elf-gcc ${CC_FLAGS} "./Hardware/cpu/cpu.c" -o "./bin/cpu.o"
 
 i386-elf-gcc ${CC_FLAGS} "./terminal/terminal.c" -o "./bin/terminal.o"
 
@@ -59,6 +61,7 @@ i386-elf-gcc ${CC_FLAGS} "./filesystem/filesystem.c" -o "./bin/filesystem.o"
 #           ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;           #
 
 i386-elf-ld -T "./linker.ld" -o "./bin/kernel32.elf" "./bin/kernel_entry.o" "./bin/kernel.o" \
+    "./bin/cpu.o"                       \
     "./bin/IoPorts.o"                   \
     "./bin/string.o"                    \
     "./bin/malloc.o"                    \

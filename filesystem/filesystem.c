@@ -5,7 +5,6 @@ FileSystem* fs = (FileSystem*)FILESYSTEM_BASE_ADDR;
 
 int files_count = 0;
 
-extern uint32_t print_color;
 extern int print_cursor_x;
 extern int print_cursor_y;
 
@@ -125,9 +124,7 @@ int cat_file(const char* file_name)
             memcpy(content, fs->files[i].data, fs->files[i].size);
             content[fs->files[i].size] = '\0';
 
-            print_color = rgba_to_hex(0, 255, 0, 255);
             print("\n%s", content);
-            print_color = 0xFFC8C8C8;
 
             return 0;
         }
@@ -139,8 +136,7 @@ int cat_file(const char* file_name)
 void list_all_files()
 {
     if (!fs) return;
-    if (files_count == 0) { put_string("\nNo files found", rgba_to_hex(255, 0, 0, 255)); return; }
-    print_color = rgba_to_hex(0, 255, 0, 255);
+    if (files_count == 0) { print("\nError: No files found"); return; }
     print("\n\nAll files:\n");
     for (int i = 0; i < files_count; i++)
     {
@@ -149,5 +145,4 @@ void list_all_files()
             print("    %s          - Size: %u\n", fs->files[i].filename, fs->files[i].size);
         }
     }
-    print_color = 0xFFC8C8C8;
 }
