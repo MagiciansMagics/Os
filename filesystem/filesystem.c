@@ -118,6 +118,15 @@ int create_directory(char* dname)
 
     for (int i = 0; i < MAX_SUB_DIRS; i++)
     {
+        if (currentdirectory->sub_dirs[i] != NULL &&
+            strcmp(currentdirectory->sub_dirs[i]->dirname, dname) == 0)
+        {
+            return FILESYSTEM_ERR_DIR_EXIST;
+        }
+    }
+
+    for (int i = 0; i < MAX_SUB_DIRS; i++)
+    {
         if (currentdirectory->sub_dirs[i] == NULL)
         {
             directory* new_dir = (directory*)AllocateMemory(sizeof(directory));
@@ -144,6 +153,7 @@ int remove_directory(char* dname)
     {
         if (currentdirectory->sub_dirs[i] != NULL && strcmp(currentdirectory->sub_dirs[i]->dirname, dname) == 0)
         {
+            DeallocateMemory(currentdirectory->sub_dirs[i]);
             currentdirectory->sub_dirs[i] = NULL;           // lazy asf way
 
             return 0;
