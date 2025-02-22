@@ -147,3 +147,28 @@ void print(const char *fmt, ...)
 
     va_end(args);
 }
+
+void set_print_x_pos(int x)
+{
+    print_cursor_x = x;
+}
+
+void set_print_y_pos(int y)
+{
+    print_cursor_y = y;
+}
+
+int get_print_x_pos()
+{
+    return print_cursor_x;
+}
+
+int get_print_y_pos()
+{
+    return print_cursor_y;
+}
+
+void set_print_color(uint32_t color)
+{
+    print_color = color;
+}

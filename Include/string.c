@@ -69,12 +69,20 @@ int16_t strcmp(const uint8_t *string1, const uint8_t *string2)
     return *string1 - *string2;
 }
 
-uint8_t *strncpy(uint8_t *dst, const uint8_t *src, const uint8_t len)
+char *strncpy(char *dest, const char *src, size_t n)
 {
-    for (uint8_t i = 0; src[i] && i < len; i++)
-        dst[i] = src[i];
+    size_t i;
+    for (i = 0; i < n && src[i] != '\0'; i++)
+    {
+        dest[i] = src[i];
+    }
 
-    return dst;
+    for (; i < n; i++)
+    {
+        dest[i] = '\0';
+    }
+
+    return dest;
 }
 
 uint8_t strlen(const uint8_t *string)
@@ -108,4 +116,40 @@ char* strcat(char* dest, const char* src)
     *ptr = '\0';
 
     return dest;
+}
+
+char* strncat(char* dest, const char* src, size_t n)
+{
+    char* d = dest;
+    const char* s = src;
+
+    while (*d != '\0') 
+    {
+        d++;
+    }
+
+    while (n-- && *s != '\0')
+    {
+        *d++ = *s++;
+    }
+
+    *d = '\0';
+
+    return dest;
+}
+
+char* strrchr(const char* str, int c)
+{
+    char* last_occurrence = NULL;
+
+    while (*str != '\0')
+    {
+        if (*str == (char)c)
+        {
+            last_occurrence = (char*)str;
+        }
+        str++;
+    }
+
+    return last_occurrence;
 }

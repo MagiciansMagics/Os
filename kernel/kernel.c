@@ -31,7 +31,7 @@ void main()
 
     init_event_queue();
 
-    print("Command: ");
+    print("/root: ");
 
     while (1)
     {

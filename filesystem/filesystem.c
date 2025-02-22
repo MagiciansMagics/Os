@@ -3,146 +3,245 @@
 
 FileSystem* fs = (FileSystem*)FILESYSTEM_BASE_ADDR;
 
-int files_count = 0;
+directory* currentdirectory;
 
-extern int print_cursor_x;
-extern int print_cursor_y;
+char currentdirpath[MAX_PATH_LENGTH];
 
 void init_filesystem()
 {
-    for (size_t i = 0; i < MAX_FILES; i++) 
+    if (fs == NULL) 
     {
-        fs->files[i].filename[0] = '\0';
-        fs->files[i].size = 0;
-    }
-}
-
-int create_file(const char* name, uint32_t size)
-{
-    if (size >= MAX_FILE_SIZE) return FILESYSTEM_ERR_INVALID_SIZE;
-    if (strlen(name) >= MAXFILENAME) return FILESYSTEM_ERR_FILENAME_TOO_LONG;
-
-    for (size_t i = 0; i < MAX_FILES; i++) 
-    {
-        if (fs->files[i].filename[0] == '\0') 
+        fs = (FileSystem*)AllocateMemory(sizeof(FileSystem));
+        if (fs == NULL) 
         {
-            strncpy(fs->files[i].filename, name, MAXFILENAME - 1);
-            fs->files[i].filename[MAXFILENAME - 1] = '\0';
-            fs->files[i].file_permission = FILE_READ_WRITE;                 // file is generally always read and write until changed
-            fs->files[i].size = size;
-            fs->files[i].data = NULL;
-            files_count++;
-            return 0;
+            return;
         }
     }
 
-    return FILESYSTEM_ERR_NO_SPACE_LEFT;
+    memset(&fs, 0, sizeof(FileSystem));
+
+    strncpy(fs->root.dirname, "root", MAX_NAME);
+    fs->root.parent = NULL;
+
+    strncpy(currentdirpath, "/root", MAX_PATH_LENGTH);
+
+    for (int i = 0; i < MAX_FILES; i++)
+    {
+        fs->root.sub_files[i].filename[0] = '\0';
+        fs->root.sub_files[i].size = 0;
+        fs->root.sub_files[i].data = NULL;
+        fs->root.sub_files[i].file_permission = FILE_READ_WRITE;
+    }
+
+    for (int i = 0; i < MAX_SUB_DIRS; i++)
+    {
+        fs->root.sub_dirs[i] = NULL;
+    }
+
+    currentdirectory = &fs->root;
 }
 
-int edit_file(const char* file_name, const char* data)
+int create_file(char* name)
 {
-    if (!file_name) return FILESYSTEM_ERR_DOESNT_EXIST;
-    if (!data) return FILESYSTEM_ERR_INVALID_SIZE;
+    if (strlen(name) >= MAX_NAME) return FILESYSTEM_ERR_FILENAME_TOO_LONG;
 
-    uint32_t data_length = strlen(data);
+    bool q = false;
 
-    for (int i = 0; i < files_count; i++)
+    for (int i = 0; i < MAX_SUB_DIRS; i++)
     {
-        if (strcmp(fs->files[i].filename, file_name) == 0 &&
-            (fs->files[i].file_permission == FILE_WRITE_ONLY || 
-             fs->files[i].file_permission == FILE_READ_WRITE))
+        if (strcmp(currentdirectory->sub_dirs[i]->dirname, name) == 0)
         {
-            if (fs->files[i].data)
+            q = true;
+            return FILESYSTEM_ERR_DIR_EXIST;
+        }
+    }
+
+    if (!q)
+    {
+        for (int i = 0; i < MAX_FILES; i++)
+        {
+            if (strcmp(currentdirectory->sub_files[i].filename, name) != 0)
             {
-                memset(fs->files[i].data, 0, fs->files[i].size);
-                DeallocateMemory(fs->files[i].data);
+                strncpy(currentdirectory->sub_files[i].filename, name, MAX_NAME);
+                currentdirectory->sub_files[i].data = NULL;
+                currentdirectory->sub_files[i].size = 0;
+                currentdirectory->sub_files[i].file_permission = FILE_READ_WRITE;
+                return 0;
             }
-            fs->files[i].size = data_length;
-
-            fs->files[i].data = AllocateMemory(fs->files[i].size);
-            if (!fs->files[i].data) return FILESYSTEM_ERR_FAILED_TO_WRITE;
-
-            memcpy(fs->files[i].data, data, data_length);
-
-            return 0;
         }
     }
 
-    return FILESYSTEM_ERR_DOESNT_EXIST;
+    return FILESYSTEM_ERR_FILE_EXIST;
 }
 
-int delete_file(const char* file_name)
+int remove_file(char* name)
 {
-    if (!file_name) return FILESYSTEM_ERR_DOESNT_EXIST;
+    if (strlen(name) >= MAX_NAME) return FILESYSTEM_ERR_FILENAME_TOO_LONG;
 
-    for (int i = 0; i < files_count; i++)
+    bool q = false;
+
+    for (int i = 0; i < MAX_SUB_DIRS; i++)
     {
-        if (strcmp(fs->files[i].filename, file_name) == 0)
+        if (strcmp(currentdirectory->sub_dirs[i]->dirname, name) == 0)
         {
-            memset(fs->files[i].filename, 0, MAXFILENAME);
+            q = true;
+        }
+    }
 
-            if (fs->files[i].data)
+    if (!q)
+    {
+        for (int i = 0; i < MAX_FILES; i++)
+        {
+            if (strcmp(currentdirectory->sub_files[i].filename, name) == 0)
             {
-                DeallocateMemory(fs->files[i].data);
-                fs->files[i].data = NULL;
+                memset(currentdirectory->sub_files[i].filename, 0, sizeof(currentdirectory->sub_files[i].filename));
+
+                if (currentdirectory->sub_files[i].data != NULL)
+                {
+                    DeallocateMemory(currentdirectory->sub_files[i].data);
+                    currentdirectory->sub_files[i].data = NULL;
+                }
+
+                currentdirectory->sub_files[i].size = 0;
+                currentdirectory->sub_files[i].file_permission = FILE_DEAD;
+                return 0;
             }
+        }
+    }
 
-            fs->files[i].size = 0x00000000;
-            fs->files[i].file_permission = 0;
+    return FILESYSTEM_ERR_FILE_NOT_FOUND;
+}
 
-            for (int j = i; j < files_count - 1; j++)
+int create_directory(char* dname)
+{
+    if (strlen(dname) >= MAX_NAME) return FILESYSTEM_ERR_DIRNAME_TOO_LONG;
+
+    for (int i = 0; i < MAX_SUB_DIRS; i++)
+    {
+        if (currentdirectory->sub_dirs[i] == NULL)
+        {
+            directory* new_dir = (directory*)AllocateMemory(sizeof(directory));
+            if (!new_dir) return FILESYSTEM_ERR_COMMON_ERROR;
+
+            memset(new_dir, 0, sizeof(directory));
+
+            strncpy(new_dir->dirname, dname, MAX_NAME);
+
+            currentdirectory->sub_dirs[i] = new_dir;
+
+            return 0;
+        }
+    }
+
+    return FILESYSTEM_ERR_MAX_DIRS_REACHED;
+}
+
+int remove_directory(char* dname)
+{
+    if (strlen(dname) >= MAX_NAME) return FILESYSTEM_ERR_DIRNAME_TOO_LONG;
+
+    for (int i = 0; i < MAX_SUB_DIRS; i++)
+    {
+        if (currentdirectory->sub_dirs[i] != NULL && strcmp(currentdirectory->sub_dirs[i]->dirname, dname) == 0)
+        {
+            currentdirectory->sub_dirs[i] = NULL;           // lazy asf way
+
+            return 0;
+        }
+    }
+    return FILESYSTEM_ERR_DIR_NOT_FOUND;
+}
+
+
+int change_directory(char* dirname)
+{
+    if (strlen(dirname) >= MAX_NAME) return FILESYSTEM_ERR_DIRNAME_TOO_LONG;
+
+    if (strcmp(dirname, "..") == 0)
+    {
+        if (currentdirectory->parent != NULL || currentdirectory->parent == &fs->root)
+        {
+            currentdirectory = currentdirectory->parent;
+
+            char* lastSlash = strrchr(currentdirpath, '/');
+            if (lastSlash != NULL)
+                *lastSlash = '\0';
+
+            if (strlen(currentdirpath) == 0)
+                strncpy(currentdirpath, "/", MAX_PATH_LENGTH);
+
+
+            return 0;
+        }
+
+        return FILESYSTEM_ERR_DIR_NOT_FOUND;
+    }
+
+    for (int i = 0; i < MAX_SUB_DIRS; i++)
+    {
+        if (currentdirectory->sub_dirs[i] != NULL && strcmp(currentdirectory->sub_dirs[i]->dirname, dirname) == 0)
+        {
+            currentdirectory = currentdirectory->sub_dirs[i];
+            strncat(currentdirpath, "/", MAX_PATH_LENGTH - strlen(currentdirpath) - 1);
+            strncat(currentdirpath, dirname, MAX_PATH_LENGTH - strlen(currentdirpath) - 1);
+
+            return 0;
+        }
+    }
+
+    return FILESYSTEM_ERR_DIR_NOT_FOUND;
+}
+
+void list_current_dir()
+{
+    bool hasDirectories = false;
+    bool hasFiles = false;
+
+    for (int i = 0; i < MAX_SUB_DIRS; i++)
+    {
+        if (currentdirectory->sub_dirs[i] != NULL && currentdirectory->sub_dirs[i]->dirname[0] != '\0')
+        {
+            hasDirectories = true;
+            break;
+        }
+    }
+
+    for (int i = 0; i < MAX_FILES; i++)
+    {
+        if (currentdirectory->sub_files[i].filename[0] != '\0')
+        {
+            hasFiles = true;
+            break;
+        }
+    }
+
+    if (hasDirectories)
+    {
+        print("\n\n[Directorys]\n");
+
+        for (int i = 0; i < MAX_SUB_DIRS; i++)
+        {
+            if (currentdirectory->sub_dirs[i] != NULL && currentdirectory->sub_dirs[i]->dirname[0] != '\0')
             {
-                fs->files[j] = fs->files[j + 1];
+                print("%s", currentdirectory->sub_dirs[i]->dirname);
+                set_print_x_pos(600);
+                print("<DIR>\n");
             }
-
-            files_count--;
-
-            return 0;
         }
     }
 
-    return FILESYSTEM_ERR_DOESNT_EXIST;
-}
-
-int cat_file(const char* file_name)
-{
-    if (!file_name) return FILESYSTEM_ERR_DOESNT_EXIST;
-
-    for (int i = 0; i < files_count; i++)
+    if (hasFiles)
     {
-        if (strcmp(fs->files[i].filename, file_name) == 0)
+        print("\n\n[Files]\n");
+
+        for (int i = 0; i < MAX_FILES; i++)
         {
-            if (fs->files[i].file_permission == FILE_WRITE_ONLY)
-                return FILESYSTEM_ERR_PERMISSION_DENIED;
-
-            if (!fs->files[i].data || fs->files[i].size == 0)
-                return FILESYSTEM_ERR_INVALID_SIZE;
-
-            char* content = (char*)AllocateMemory(fs->files[i].size + 1);
-            if (!content) return FILESYSTEM_ERR_FAILED_TO_WRITE;
-
-            memcpy(content, fs->files[i].data, fs->files[i].size);
-            content[fs->files[i].size] = '\0';
-
-            print("\n%s", content);
-
-            return 0;
-        }
-    }
-
-    return FILESYSTEM_ERR_DOESNT_EXIST;
-}
-
-void list_all_files()
-{
-    if (!fs) return;
-    if (files_count == 0) { print("\nError: No files found"); return; }
-    print("\n\nAll files:\n");
-    for (int i = 0; i < files_count; i++)
-    {
-        if (fs->files[i].filename[0] != '\0')
-        {
-            print("    %s          - Size: %u\n", fs->files[i].filename, fs->files[i].size);
+            if (currentdirectory->sub_files[i].filename[0] != '\0')
+            {
+                print("%s", currentdirectory->sub_files[i].filename);
+                set_print_x_pos(600);
+                print("<FILE>\n");
+            }
         }
     }
 }
