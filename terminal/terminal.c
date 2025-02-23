@@ -45,6 +45,8 @@ void handle_terminal_cmd(char* command)
         print("    clear                       - Clears the screen\n");
         print("    touch <filename>            - Makes a new file\n");
         print("    rm    <filename>            - Removes selected file\n");
+        print("    cat   <filename>            - Prints data of the selected file\n");
+        print("    find  <filename>            - Finds selected file\n");
         print("    mkdir <dir name>            - Makes a directory\n");
         print("    rmdir <dir name>            - Removes selected directory\n");
         print("    cd    <dir name>            - Change directory\n");
@@ -77,6 +79,61 @@ void handle_terminal_cmd(char* command)
         else
         {
             remove_file(args[1]);
+        }
+    }
+    else if (strcmp(args[0], "edit") == 0)
+    {
+        if (args_count < 3)
+        {
+            print("\nMissing filename or data");
+        }
+        else
+        {
+            size_t total_length = 0;
+            for (int i = 2; i < args_count; i++)
+            {
+                total_length += strlen(args[i]) + 1;
+            }
+
+            char *full_data = (char *)AllocateMemory(total_length);
+            if (!full_data)
+            {
+                return;
+            }
+
+
+            full_data[0] = '\0';
+            for (int i = 2; i < args_count; i++)
+            {
+                strcat(full_data, args[i]);
+                if (i < args_count - 1)
+                    strcat(full_data, " ");
+            }
+
+            edit_file(args[1], full_data);
+            DeallocateMemory(full_data);
+        }
+    }
+    else if (strcmp(args[0], "cat") == 0)
+    {
+        if (args_count < 2)
+        {
+            print("\nMissing filename");
+        }
+        else
+        {
+            cat_file(args[1]);
+        }
+    }
+    else if (strcmp(args[0], "find") == 0)
+    {
+        if (args_count < 2)
+        {
+            print("\nMissing filename");
+        }
+        else
+        {
+            find_file(args[1]);
         }
     }
     else if (strcmp(args[0], "mkdir") == 0)

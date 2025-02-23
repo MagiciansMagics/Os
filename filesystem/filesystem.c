@@ -20,8 +20,8 @@ void init_filesystem()
 
     memset(&fs, 0, sizeof(FileSystem));
 
-    strncpy(fs->root.dirname, "root", MAX_NAME);
     fs->root.parent = NULL;
+    strncpy(fs->root.dirname, "root", MAX_NAME);
 
     strncpy(currentdirpath, "/root", MAX_PATH_LENGTH);
 
@@ -45,33 +45,36 @@ int create_file(char* name)
 {
     if (strlen(name) >= MAX_NAME) return FILESYSTEM_ERR_FILENAME_TOO_LONG;
 
-    bool q = false;
-
     for (int i = 0; i < MAX_SUB_DIRS; i++)
     {
         if (strcmp(currentdirectory->sub_dirs[i]->dirname, name) == 0)
         {
-            q = true;
             return FILESYSTEM_ERR_DIR_EXIST;
         }
     }
 
-    if (!q)
+    int index = -1;
+
+    for (int i = 0; i < MAX_FILES; i++)
     {
-        for (int i = 0; i < MAX_FILES; i++)
+        if (currentdirectory->sub_files[i].filename[0] == '\0')
         {
-            if (strcmp(currentdirectory->sub_files[i].filename, name) != 0)
-            {
-                strncpy(currentdirectory->sub_files[i].filename, name, MAX_NAME);
-                currentdirectory->sub_files[i].data = NULL;
-                currentdirectory->sub_files[i].size = 0;
-                currentdirectory->sub_files[i].file_permission = FILE_READ_WRITE;
-                return 0;
-            }
+            index = i;
+            break;
         }
     }
 
-    return FILESYSTEM_ERR_FILE_EXIST;
+    if (index == -2)
+    {
+        return FILESYSTEM_ERR_MAX_FILES_REACHED;
+    }
+
+    strncpy(currentdirectory->sub_files[index].filename, name, MAX_NAME);
+    currentdirectory->sub_files[index].size = 0;
+    currentdirectory->sub_files[index].data = NULL;
+    currentdirectory->sub_files[index].file_permission = FILE_READ_WRITE;
+
+    return 0;
 }
 
 int remove_file(char* name)
@@ -111,6 +114,88 @@ int remove_file(char* name)
 
     return FILESYSTEM_ERR_FILE_NOT_FOUND;
 }
+
+int edit_file(char* name, char* data)
+{
+    if (strlen(name) >= MAX_NAME) return FILESYSTEM_ERR_FILENAME_TOO_LONG;
+    if (strlen(data) == 0) return FILESYSTEM_ERR_NO_DATA;
+
+    for (int i = 0; i < MAX_SUB_DIRS; i++)
+    {
+        if (strcmp(currentdirectory->sub_dirs[i]->dirname, name) == 0)
+        {
+            return FILESYSTEM_ERR_PERMISSION_WRITE;
+        }
+    }
+
+    uint32_t length = strlen(data);
+
+    for (int i = 0; i < MAX_FILES; i++)
+    {
+        if (strcmp(currentdirectory->sub_files[i].filename, name) == 0 && currentdirectory->sub_files[i].file_permission == FILE_READ_WRITE || 
+        currentdirectory->sub_files[i].file_permission == FILE_WRITE_ONLY)
+        {
+            if (currentdirectory->sub_files[i].data != NULL)
+            {
+                DeallocateMemory(currentdirectory->sub_files[i].data);
+                currentdirectory->sub_files[i].data = NULL;
+                memset(&currentdirectory->sub_files[i].size, 0, sizeof(currentdirectory->sub_files[i].size));
+            }
+
+            currentdirectory->sub_files[i].size = length;
+
+            currentdirectory->sub_files[i].data = AllocateMemory(currentdirectory->sub_files[i].size);
+            if (currentdirectory->sub_files[i].data == NULL) return FILESYSTEM_ERR_FAILED_TO_WRITE;
+
+            memcpy(currentdirectory->sub_files[i].data, data, length);
+
+            return 0;
+        }
+    }
+
+    return FILESYSTEM_ERR_FILE_NOT_FOUND;
+}
+
+int cat_file(char* name)
+{
+    if (strlen(name) >= MAX_NAME) return FILESYSTEM_ERR_FILENAME_TOO_LONG;
+
+    for (int i = 0; i < MAX_SUB_DIRS; i++)
+    {
+        if (strcmp(currentdirectory->sub_dirs[i]->dirname, name) == 0)
+        {
+            return FILESYSTEM_ERR_PERMISSION_READ;
+        }
+    }
+
+    for (int i = 0; i < MAX_FILES; i++)
+    {
+        if (strcmp(currentdirectory->sub_files[i].filename, name) == 0 && currentdirectory->sub_files[i].file_permission == FILE_READ_WRITE ||
+        currentdirectory->sub_files[i].file_permission == FILE_READ_ONLY)
+        {
+            if (currentdirectory->sub_files[i].data == NULL || currentdirectory->sub_files[i].size == 0)
+            {
+                return FILESYSTEM_ERR_FAILED_TO_READ;
+            }
+
+            char* content = (char*)AllocateMemory(currentdirectory->sub_files[i].size + 1);
+            if (content == NULL) return FILESYSTEM_ERR_FAILED_TO_READ;
+
+            memcpy(content, currentdirectory->sub_files[i].data, currentdirectory->sub_files[i].size);
+            content[currentdirectory->sub_files[i].size] = '\0';
+
+            print("\n%s", content);
+
+            DeallocateMemory(content);
+
+            return 0;
+        }
+    }
+
+    return FILESYSTEM_ERR_FILE_NOT_FOUND;
+}
+
+// dir
 
 int create_directory(char* dname)
 {
@@ -172,7 +257,7 @@ int change_directory(char* dirname)
         if (currentdirectory->parent != NULL || currentdirectory->parent == &fs->root)
         {
             currentdirectory = currentdirectory->parent;
-
+            
             char* lastSlash = strrchr(currentdirpath, '/');
             if (lastSlash != NULL)
                 *lastSlash = '\0';
@@ -180,6 +265,12 @@ int change_directory(char* dirname)
             if (strlen(currentdirpath) == 0)
                 strncpy(currentdirpath, "/", MAX_PATH_LENGTH);
 
+
+            if (strcmp(currentdirpath, "root") != 0)
+            {
+                memset(&currentdirpath, 0, sizeof(currentdirectory));
+                strncpy(currentdirpath, "/root", MAX_PATH_LENGTH);
+            }
 
             return 0;
         }
@@ -200,6 +291,45 @@ int change_directory(char* dirname)
     }
 
     return FILESYSTEM_ERR_DIR_NOT_FOUND;
+}
+
+// find and list
+
+int find_file_loop(char* name, directory* dir, char* path) 
+{
+    for (int i = 0; i < MAX_FILES; i++) {
+        if (dir->sub_files[i].filename[0] != '\0' && strcmp(dir->sub_files[i].filename, name) == 0) {
+            print("\nFile found: /root%s/%s", path, dir->sub_files[i].filename);
+            return 0;
+        }
+    }
+
+    for (int i = 0; i < MAX_SUB_DIRS; i++) 
+    {
+        if (dir->sub_dirs[i] != NULL) {
+            char new_path[MAX_NAME * 2];
+            strncpy(new_path, path, MAX_NAME * 2);
+            strncat(new_path, "/", MAX_NAME * 2 - strlen(new_path) - 1);
+            strncat(new_path, dir->sub_dirs[i]->dirname, MAX_NAME * 2 - strlen(new_path) - 1);
+            
+            int result = find_file_loop(name, dir->sub_dirs[i], new_path);
+            if (result >= 0) {
+                return 0;
+            }
+        }
+    }
+    
+    return FILESYSTEM_ERR_FILE_NOT_FOUND;
+}
+
+int find_file(char* name)
+{
+    if (strlen(name) >= MAX_NAME) {
+        return FILESYSTEM_ERR_FILENAME_TOO_LONG;
+    }
+    
+    char initial_path[MAX_NAME] = "";
+    return find_file_loop(name, &fs->root, initial_path);
 }
 
 void list_current_dir()

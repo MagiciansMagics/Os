@@ -32,6 +32,11 @@ typedef enum
     FILESYSTEM_ERR_MAX_DIRS_REACHED = -8,
     FILESYSTEM_ERR_MAX_FILES_REACHED = -9,
     FILESYSTEM_ERR_COMMON_ERROR = -10,
+    FILESYSTEM_ERR_NO_DATA = -11,
+    FILESYSTEM_ERR_PERMISSION_WRITE = -12,
+    FILESYSTEM_ERR_PERMISSION_READ = -13,
+    FILESYSTEM_ERR_FAILED_TO_WRITE = -14,
+    FILESYSTEM_ERR_FAILED_TO_READ = -15,
 } FileSystemError;
 
 typedef enum
@@ -72,6 +77,9 @@ typedef struct
 void init_filesystem();
 int create_file(char* name);
 int remove_file(char* name);
+int edit_file(char* name, char* data);
+int cat_file(char* name);
+int find_file(char* name);
 int create_directory(char* name);
 int remove_directory(char* dname);
 int change_directory(char* dirname);
