@@ -33,7 +33,6 @@ void put_char(char c, uint32_t color)
         print_cursor_x = 0;
     }
 
-
     for (uint16_t row = 0; row < 16; row++)
     {
         uint8_t row_data1 = bitmap[row * 2];

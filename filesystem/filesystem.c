@@ -9,25 +9,15 @@ char currentdirpath[MAX_PATH_LENGTH];
 
 void init_filesystem()
 {
-    if (fs == NULL) 
-    {
-        fs = (FileSystem*)AllocateMemory(sizeof(FileSystem));
-        if (fs == NULL) 
-        {
-            return;
-        }
-    }
-
-    memset(&fs, 0, sizeof(FileSystem));
+    strncpy(fs->root.dirname, "root", MAX_NAME);
 
     fs->root.parent = NULL;
-    strncpy(fs->root.dirname, "root", MAX_NAME);
 
     strncpy(currentdirpath, "/root", MAX_PATH_LENGTH);
 
     for (int i = 0; i < MAX_FILES; i++)
     {
-        fs->root.sub_files[i].filename[0] = '\0';
+        memset(fs->root.sub_files[i].filename, 0, MAX_NAME);
         fs->root.sub_files[i].size = 0;
         fs->root.sub_files[i].data = NULL;
         fs->root.sub_files[i].file_permission = FILE_READ_WRITE;
@@ -221,6 +211,8 @@ int create_directory(char* dname)
 
             strncpy(new_dir->dirname, dname, MAX_NAME);
 
+            new_dir->parent = currentdirectory;
+
             currentdirectory->sub_dirs[i] = new_dir;
 
             return 0;
@@ -254,7 +246,7 @@ int change_directory(char* dirname)
 
     if (strcmp(dirname, "..") == 0)
     {
-        if (currentdirectory->parent != NULL || currentdirectory->parent == &fs->root)
+        if (currentdirectory->parent != NULL)
         {
             currentdirectory = currentdirectory->parent;
             
@@ -264,13 +256,6 @@ int change_directory(char* dirname)
 
             if (strlen(currentdirpath) == 0)
                 strncpy(currentdirpath, "/", MAX_PATH_LENGTH);
-
-
-            if (strcmp(currentdirpath, "root") != 0)
-            {
-                memset(&currentdirpath, 0, sizeof(currentdirectory));
-                strncpy(currentdirpath, "/root", MAX_PATH_LENGTH);
-            }
 
             return 0;
         }
@@ -380,7 +365,7 @@ void list_current_dir()
             {
                 print("%s", currentdirectory->sub_files[i].filename);
                 set_print_x_pos(600);
-                print("<FILE>\n");
+                print("- Size    %d\n", currentdirectory->sub_files[i].size);
             }
         }
     }

@@ -52,13 +52,17 @@ i386-elf-gcc ${CC_FLAGS} "./Interrupts/irq.c" -o "./bin/irq.o"
 
 i386-elf-gcc ${CC_FLAGS} "./Interrupts/isr.c" -o "./bin/isr.o"
 
-#filesystem
+#filesystem & write and read
 
 i386-elf-gcc ${CC_FLAGS} "./filesystem/filesystem.c" -o "./bin/filesystem.o"
 
 #PCI
 
 i386-elf-gcc ${CC_FLAGS} "./PCI/pci.c" -o "./bin/pci.o"
+
+#Drive
+
+i386-elf-gcc ${CC_FLAGS} "./disk/ata.c" -o "./bin/ata.o"
 
 #final build
 
@@ -73,6 +77,7 @@ i386-elf-ld -T "./linker.ld" -o "./bin/kernel32.elf" "./bin/kernel_entry.o" "./b
     "./bin/idt.o"                       \
     "./bin/irq.o"                       \
     "./bin/isr.o"                       \
+    "./bin/ata.o"                       \
     "./bin/filesystem.o"                \
     "./bin/pci.o"                       \
     "./bin/screen.o"                    \
