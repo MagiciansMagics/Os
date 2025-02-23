@@ -1,6 +1,7 @@
 <h1>My os project</h1>
 
 <li>Support full RGBA: Done</li><br>
+<li>Protected mode(32bit): Done</li><br>
 <li>Interrupts: Done</li><br>
 <li>Malloc: Done(Note: It should work)</li><br>
 <li>Keyboard: Done</li><br>
