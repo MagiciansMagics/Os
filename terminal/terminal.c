@@ -51,6 +51,7 @@ void handle_terminal_cmd(char* command)
         print("    rmdir <dir name>            - Removes selected directory\n");
         print("    cd    <dir name>            - Change directory\n");
         print("    ls                          - Prints current directory\n");
+        print("    lspci                       - Prints all PCI devices found\n");
         print("    lscpu                       - Prints your cpu info\n");
     }
     else if (strcmp(args[0], "clear") == 0)
@@ -176,9 +177,21 @@ void handle_terminal_cmd(char* command)
     else if (strcmp(args[0], "lscpu") == 0)
     {
         char vendor[13];
+        uint32_t family, model, stepping;
         get_cpu_vendor(vendor);
-        print("\n\nCpu info:\n");
-        print("    Cpu vendor: %s\n", vendor);
+        print("\n\nCPU info:\n");
+
+        get_cpu_vendor(vendor);
+        print("    CPU Vendor: %s\n", vendor);
+
+        get_cpu_model_info(&family, &model, &stepping);
+        print("    CPU Family: %u\n", family);
+        print("    CPU Model: %u\n", model);
+        print("    CPU Stepping: %u\n", stepping);
+    }
+    else if (strcmp(args[0], "lspci") == 0)
+    {
+        list_pci_devices();
     }
 
     memset(command, 0, sizeof(command));

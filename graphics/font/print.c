@@ -97,6 +97,7 @@ void print(const char *fmt, ...)
                     }
                     break;
                 }
+                case 'X':
                 case 'x':
                 {
                     int num = va_arg(args, int);

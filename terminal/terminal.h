@@ -11,6 +11,7 @@
 #include "../Include/malloc.h"
 #include "../Include/string.h"
 #include "../Hardware/cpu/cpu.h"
+#include "../PCI/pci.h"
 
 #pragma once
 

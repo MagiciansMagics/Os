@@ -2,11 +2,11 @@
 #define _PCI_H_
 
 #include <stdint.h>
+#include "../graphics/font/print.h"
 #include "../Include/IoPorts.h"
 
 #pragma once
 
-#define PCI_CONFIG_ADDRESS 0xCF8
-#define PCI_CONFIG_DATA    0xCFC
+void list_pci_devices();
 
 #endif
