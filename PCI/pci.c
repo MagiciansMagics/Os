@@ -90,15 +90,57 @@ const char *get_vendor_name(uint16_t vendorID) {
 
 const char *get_device_name(uint16_t vendorID, uint16_t deviceID) 
 {
-    // You should load a PCI ID database for a more comprehensive list
     if (vendorID == 0x8086) 
     {
-        switch (deviceID) {
+        switch (deviceID) 
+        {
             case 0x5916: return "HD Graphics 620";
             case 0x9D21: return "USB 3.0 xHCI Controller";
             case 0x9D60: return "Serial IO I2C Controller #0";
+            case 0xA2F0: return "Intel UHD Graphics 630 (Desktop)";
+            case 0x9A0B: return "Ethernet Connection (2) I219-V";
+            case 0xA2E0: return "Intel Wireless-AC 9260";
+            case 0xA131: return "Intel I211 Gigabit Network Connection";
+            case 0xA110: return "Intel QAT (QuickAssist Technology)";
+            case 0xA160: return "Intel 82579LM Gigabit Network Connection";
+            case 0xA080: return "Intel 82574L Gigabit Network Connection";
+
+            case 0xA141: return "Xeon E3-1200 v6/7th Gen Core Processor Host Bridge/DRAM Registers";
+            case 0x5912: return "HD Graphics 620";
         }
     }
+    else if (vendorID == 0x10EC) 
+    {
+        switch (deviceID) 
+        {
+            case 0x8168: return "RTL8111/8168/8411 PCI Express Gigabit Ethernet Controller";
+            case 0x8139: return "RTL8139 PCI Fast Ethernet Adapter";
+            case 0x5202: return "RTL8723BE Wireless Network Adapter";
+            case 0x8136: return "RTL8169 Gigabit Ethernet Adapter";
+        }
+    }
+    else if (vendorID == 0x10DE) 
+    {
+        switch (deviceID) 
+        {
+            case 0x1C82: return "GeForce GTX 1080 Ti";
+            case 0x0F01: return "GeForce GT 1030";
+            case 0x0E10: return "GeForce GTX 1060";
+            case 0x0C80: return "GeForce GTX 1050 Ti";
+            case 0x0E11: return "GeForce GTX 1070";
+        }
+    }
+    else if (vendorID == 0x103C) 
+    {
+        switch (deviceID) 
+        {
+            case 0x1607: return "EliteBook 840 G1";
+            case 0x204B: return "Pavilion x360 Convertible";
+            case 0x214E: return "Spectre x360";
+            case 0x2110: return "HP Envy";
+        }
+    }
+
     return "Unknown device";
 }
 
