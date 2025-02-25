@@ -34,7 +34,7 @@ _start:
     mov bx, 0x7e00                              ; BX = what address to load the read sectors
     call disk_read16                            ; Function that my magical hands made
 
-    mov al, 0x60                                ; AL = number of sectors to read	(1-128 dec.)
+    mov al, 0x80                                ; AL = number of sectors to read	(1-128 dec.)
 	mov ch, 0x00                                ; CH = track/cylinder number  (0-1023 dec., see below)
 	mov cl, 0x06                                ; CL = sector number  (1-17 dec.)
     mov dh, 0x00                                ; DH = head number  (0-15 dec.)

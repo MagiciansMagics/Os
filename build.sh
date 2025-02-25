@@ -114,7 +114,7 @@ dd if="./bin/kernel32.bin" of="./bin/os.img" bs=512 seek=5
 
 # Extend the os.img to the size of a 1.44M floppy (can be useful)
 
-truncate -s 1440k "./bin/os.img"                                    # NOT MADE BY ME. CREDITS TO sixteenlettername: https://www.reddit.com/r/osdev/comments/1ikv5ma/pm32_bit_confusing_c_printing_problem/
+truncate -s 10M "./bin/os.img"                                    # NOT MADE BY ME. CREDITS TO sixteenlettername: https://www.reddit.com/r/osdev/comments/1ikv5ma/pm32_bit_confusing_c_printing_problem/
 
 #           ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;           #
 
