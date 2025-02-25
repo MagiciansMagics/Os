@@ -3,6 +3,7 @@
 #include "../Interrupts/irq.h"
 #include "../Interrupts/isr.h"
 #include "../Include/malloc.h"
+#include "../syscalls/syscall.h"
 #include "../filesystem/filesystem.h"
 #include "../Include/time.h"
 #include "../Hardware/keyboard/keyboard.h"
@@ -17,6 +18,8 @@ void main()
     irq_install();
     asm volatile ("sti");
 
+    init_syscalls();
+
     init_filesystem();
 
     init_screen(); // DO NOT TRY TO PRINT BEFORE THIS FUNCTION IS EXECUTED
@@ -30,6 +33,8 @@ void main()
     init_mouse();
 
     init_event_queue();
+
+    write("Hello");
 
     print("/root: ");
 

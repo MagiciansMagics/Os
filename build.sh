@@ -64,6 +64,14 @@ i386-elf-gcc ${CC_FLAGS} "./PCI/pci.c" -o "./bin/pci.o"
 
 i386-elf-gcc ${CC_FLAGS} "./disk/ata.c" -o "./bin/ata.o"
 
+#Syscalls
+
+i386-elf-gcc ${CC_FLAGS} "./syscalls/syscall_handler.c" -o "./bin/syscall_handler.o"
+
+nasm -f elf "./syscalls/syscall_entry.asm" -o "./bin/syscalls_entry.o"
+
+i386-elf-gcc ${CC_FLAGS} "./syscalls/syscall.c" -o "./bin/syscall.o"
+
 #final build
 
 #           ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;           #
@@ -78,6 +86,9 @@ i386-elf-ld -T "./linker.ld" -o "./bin/kernel32.elf" "./bin/kernel_entry.o" "./b
     "./bin/irq.o"                       \
     "./bin/isr.o"                       \
     "./bin/ata.o"                       \
+    "./bin/syscalls_entry.o"            \
+    "./bin/syscall_handler.o"           \
+    "./bin/syscall.o"                   \
     "./bin/filesystem.o"                \
     "./bin/pci.o"                       \
     "./bin/screen.o"                    \
