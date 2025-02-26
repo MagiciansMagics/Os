@@ -17,7 +17,7 @@ syscall_entry:
 
     push esp
     call syscall_handler
-    pop esp
+    add esp, 4
 
     pop eax
     pop ebx

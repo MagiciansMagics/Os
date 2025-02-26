@@ -2,8 +2,25 @@
 
 extern void syscall_entry();
 
-void syscall_handler(int num, unsigned int arg1, unsigned int arg2, unsigned int arg3) 
+struct trap_frame {
+    unsigned int eax;
+    unsigned int ebx;
+    unsigned int ecx;
+    unsigned int edx;
+    unsigned int esi;
+    unsigned int edi;
+    unsigned int ebp;
+    unsigned int ds;
+    unsigned int es;
+    unsigned int fs;
+    unsigned int gs;
+    unsigned int esp;
+};
+
+void syscall_handler(struct trap_frame *frame) 
 {
+    const unsigned int num = frame->eax;
+
     switch (num) 
     {
         case 1:
