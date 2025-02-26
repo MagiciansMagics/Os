@@ -11,5 +11,6 @@
 <li>Mouse: Technically done, but im not handling drawing yet</li><br>
 <li>Filesystem: Done(Huge update from earlier)</li><br>
 <li>Disk Io services: Undone</li><br>
+<li>Syscalls: done</li><br>
 
 <h3>Credits to mpetch for fixing part of my "build.sh" file. Find it at: https://www.reddit.com/r/osdev/comments/1ikv5ma/pm32_bit_confusing_c_printing_problem/</h3>
