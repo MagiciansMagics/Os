@@ -7,6 +7,7 @@
 #include "./event_queue.h"
 #include "../terminal/terminal.h"
 #include "../filesystem/filesystem.h"
+#include "../Hardware/mouse/mouse.h"
 
 #pragma once
 

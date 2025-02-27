@@ -17,20 +17,59 @@ struct trap_frame {
     unsigned int esp;
 };
 
-void syscall_handler(struct trap_frame *frame) 
+int syscall_handler(struct trap_frame *frame) 
 {
     const unsigned int num = frame->eax;
 
     switch (num) 
     {
-        case 1:
-            print("Passed\n");
-            break;
+        case SYS_EXIT:
+        {
+            return (int)frame->ebx;
+        }
+
+        case SYS_CREAT:
+        {
+            char* filename = (char*)frame->ebx;
+            int flags = (int)frame->ecx;
+
+            int i = create_file(filename, flags);
+
+            return i;
+        }
+
+        case SYS_UNLINK:
+        {
+            char* filename = (char*)frame->ebx;
+
+            int i = remove_file(filename);
+
+            return i;
+        }
+
+        case SYS_MKDIR:
+        {
+            char* dirname = (char*)frame->ebx;
+            int permissions = (int)frame->ecx;
+
+            int i = create_directory(dirname, permissions);
+
+            return i;
+        }
+
+        case SYS_RMDIR:
+        {
+            char* dirname = (char*)frame->ebx;
+
+            int i = remove_directory(dirname);
+
+            return i;
+        }
 
         default:
-            print("Invalid syscall!\n");
-            print("Syscall number: %d\n", num);
-            break;
+        {
+            return 1;
+        }
     }
 }
 

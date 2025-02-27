@@ -42,7 +42,12 @@ int handle_mouse_events(Event* queue, int index)
     {
         case MOUSE_MOVED:
         {
-            // handle drawing and removing the mouse here
+            int* mouse_ptr = (int*)queue[index].data;
+            if (mouse_ptr)
+            {
+                undraw_mouse(mouse_ptr[2], mouse_ptr[3]); // Remove old cursor position
+                draw_mouse(mouse_ptr[0], mouse_ptr[1], rgba_to_hex(255, 255, 255, 255)); // Draw new position
+            }
             break;
         }
 

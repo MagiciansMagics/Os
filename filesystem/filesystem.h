@@ -75,12 +75,12 @@ typedef struct
 } FileSystem;
 
 void init_filesystem();
-int create_file(char* name);
+int create_file(char* name, int flags);
 int remove_file(char* name);
 int edit_file(char* name, char* data);
 int cat_file(char* name);
 int find_file(char* name);
-int create_directory(char* name);
+int create_directory(char* name, int permissions);
 int remove_directory(char* dname);
 int change_directory(char* dirname);
 void list_current_dir();

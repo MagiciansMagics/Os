@@ -34,8 +34,6 @@ void main()
 
     init_event_queue();
 
-    write("Hello");
-
     print("/root: ");
 
     while (1)

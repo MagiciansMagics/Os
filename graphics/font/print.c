@@ -133,6 +133,18 @@ void print(const char *fmt, ...)
                     put_char(ch, print_color);
                     break;
                 }
+                case 'p':
+                {
+                    uintptr_t ptr = (uintptr_t)va_arg(args, void*);
+                    put_char('0', print_color);
+                    put_char('x', print_color);
+                    itoa(ptr, buffer, 16);
+                    for (char* p = buffer; *p; p++)
+                    {
+                        put_char(*p, print_color);
+                    }
+                    break;
+                }
                 default:
                     break;
             }

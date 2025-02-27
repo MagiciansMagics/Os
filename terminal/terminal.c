@@ -68,7 +68,7 @@ void handle_terminal_cmd(char* command)
         }
         else
         {
-            create_file(args[1]);
+            syscall_creat(args[1], FILE_READ_WRITE);
         }
     }
     else if (strcmp(args[0], "rm") == 0)
@@ -79,7 +79,7 @@ void handle_terminal_cmd(char* command)
         }
         else
         {
-            remove_file(args[1]);
+            syscall_unlink(args[1]);
         }
     }
     else if (strcmp(args[0], "edit") == 0)
@@ -145,7 +145,7 @@ void handle_terminal_cmd(char* command)
         }
         else
         {
-            create_directory(args[1]);
+            syscall_mkdir(args[1], FILE_READ_WRITE);
         }
     }
     else if (strcmp(args[0], "rmdir") == 0)
@@ -156,7 +156,7 @@ void handle_terminal_cmd(char* command)
         }
         else
         {
-            remove_directory(args[1]);
+            syscall_rmdir(args[1]);
         }
     }
     else if (strcmp(args[0], "cd") == 0)

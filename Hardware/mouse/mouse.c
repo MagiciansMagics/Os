@@ -9,6 +9,42 @@ uint8_t mouseData;
 uint8_t mouseCycle;
 
 int mouse_pos_holder[4] = {};
+uint8_t background_buffer[HCURSOR * WCURSOR];
+
+void undraw_mouse(int prev_mouse_x, int prev_mouse_y)
+{
+    int index = 0;
+    for (int h = 0; h < HCURSOR; h++)
+    {
+        for (int w = 0; w < WCURSOR; w++)
+        {
+            draw_pixel(prev_mouse_x + w, prev_mouse_y + h, background_buffer[index++]);
+        }
+    }
+}
+
+void draw_mouse(int mouse_x, int mouse_y, uint32_t color)
+{
+    int index = 0;
+    for (int y = 0; y < HCURSOR; y++)
+    {
+        int x = 0;
+        for (int i = 0; i < 2; i++)
+        {
+            uint8_t byte = cursor[y * 2 + i];
+            for (int j = 7; j >= 0; j--)
+            {
+                if (byte & (1 << j))
+                {
+                    background_buffer[index] = return_pixel_color(mouse_x + x, mouse_y + y);
+                    draw_pixel(mouse_x + x, mouse_y + y, color);
+                }
+                index++;
+                x++;
+            }
+        }
+    }
+}
 
 void MouseHandler()
 {
@@ -52,7 +88,7 @@ void MouseHandler()
 
 void init_mouse()
 {
-    outb(0x64, 0xA7); //Disable auxilpiar PS/2 Device
+    outb(0x64, 0xA7); //Disable auxiliary PS/2 Device
     outb(0x64, 0xA8); //Enable Mouse
 
     while (inb(0x64) & 1)

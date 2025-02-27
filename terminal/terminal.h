@@ -12,6 +12,7 @@
 #include "../Include/string.h"
 #include "../Hardware/cpu/cpu.h"
 #include "../PCI/pci.h"
+#include "../syscalls/syscall.h"
 
 #pragma once
 

@@ -31,7 +31,7 @@ void init_filesystem()
     currentdirectory = &fs->root;
 }
 
-int create_file(char* name)
+int create_file(char* name, int flags)
 {
     if (strlen(name) >= MAX_NAME) return FILESYSTEM_ERR_FILENAME_TOO_LONG;
 
@@ -187,7 +187,7 @@ int cat_file(char* name)
 
 // dir
 
-int create_directory(char* dname)
+int create_directory(char* dname, int permissions)
 {
     if (strlen(dname) >= MAX_NAME) return FILESYSTEM_ERR_DIRNAME_TOO_LONG;
 

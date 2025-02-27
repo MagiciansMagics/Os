@@ -8,207 +8,213 @@ Linker script and memory map
 
                 0x0000000000009000                . = 0x9000
 
-.text           0x0000000000009000     0x40e6
+.text           0x0000000000009000     0x4403
  *(.text*)
  .text          0x0000000000009000      0x200 ./bin/kernel_entry.o
                 0x0000000000009004                _start
- .text          0x0000000000009200       0x70 ./bin/kernel.o
+ .text          0x0000000000009200       0x60 ./bin/kernel.o
                 0x0000000000009200                main
- .text          0x0000000000009270      0x115 ./bin/cpu.o
-                0x0000000000009270                cpuid
-                0x000000000000929a                get_cpu_vendor
-                0x00000000000092e6                get_cpu_model_info
-                0x0000000000009350                get_cpu_features
- .text          0x0000000000009385       0xab ./bin/IoPorts.o
-                0x0000000000009385                outb
-                0x00000000000093a4                inb
-                0x00000000000093bf                outw
-                0x00000000000093e0                inw
-                0x00000000000093fe                outl
-                0x0000000000009415                inl
- .text          0x0000000000009430      0x307 ./bin/string.o
-                0x0000000000009430                memset
-                0x0000000000009475                memcpy
-                0x00000000000094a8                itoa
-                0x00000000000095b9                strcmp
-                0x00000000000095ef                strncpy
-                0x0000000000009648                strlen
-                0x000000000000966c                strcat
-                0x00000000000096ac                strncat
-                0x0000000000009705                strrchr
- .text          0x0000000000009737      0x204 ./bin/malloc.o
-                0x0000000000009737                Memory_Init
-                0x0000000000009776                AllocateMemory
-                0x0000000000009867                DeallocateMemory
- *fill*         0x000000000000993b        0x5 
- .text          0x0000000000009940      0x1d1 ./bin/interrupts.o
-                0x0000000000009940                _idt_load
-                0x0000000000009948                _isr0
-                0x0000000000009952                _isr1
-                0x000000000000995c                _isr2
-                0x0000000000009966                _isr3
-                0x0000000000009970                _isr4
-                0x000000000000997a                _isr5
-                0x0000000000009984                _isr6
-                0x0000000000009991                _isr7
-                0x000000000000999b                _isr8
-                0x00000000000099a3                _isr9
-                0x00000000000099ad                _isr10
-                0x00000000000099b5                _isr11
-                0x00000000000099bd                _isr12
-                0x00000000000099c5                _isr13
-                0x00000000000099cd                _isr14
-                0x00000000000099d2                _isr15
-                0x00000000000099d9                _isr16
-                0x00000000000099e0                _isr17
-                0x00000000000099e7                _isr18
-                0x00000000000099ee                _isr19
-                0x00000000000099f5                _isr20
-                0x00000000000099fc                _isr21
-                0x0000000000009a03                _isr22
-                0x0000000000009a0a                _isr23
-                0x0000000000009a11                _isr24
-                0x0000000000009a18                _isr25
-                0x0000000000009a1f                _isr26
-                0x0000000000009a26                _isr27
-                0x0000000000009a2d                _isr28
-                0x0000000000009a34                _isr29
-                0x0000000000009a3b                _isr30
-                0x0000000000009a42                _isr31
-                0x0000000000009a49                _syscall
-                0x0000000000009a78                irq0
-                0x0000000000009a7f                irq1
-                0x0000000000009a86                irq2
-                0x0000000000009a8d                irq3
-                0x0000000000009a94                irq4
-                0x0000000000009a9b                irq5
-                0x0000000000009aa2                irq6
-                0x0000000000009aa9                irq7
-                0x0000000000009ab0                irq8
-                0x0000000000009ab7                irq9
-                0x0000000000009abe                irq10
-                0x0000000000009ac5                irq11
-                0x0000000000009acc                irq12
-                0x0000000000009ad3                irq13
-                0x0000000000009ada                irq14
-                0x0000000000009ae1                irq15
- .text          0x0000000000009b11       0xa0 ./bin/idt.o
-                0x0000000000009b11                idt_set_gate
-                0x0000000000009b79                idt_install
- .text          0x0000000000009bb1      0x307 ./bin/irq.o
-                0x0000000000009bb1                irq_install_handler
-                0x0000000000009bc4                irq_uninstall_handler
-                0x0000000000009bd8                irq_remap
-                0x0000000000009c86                irq_install
-                0x0000000000009e25                _irq_handler
-                0x0000000000009e95                irq_wait
- .text          0x0000000000009eb8      0x312 ./bin/isr.o
-                0x0000000000009eb8                isrs_install
-                0x000000000000a1bb                _fault_handler
- .text          0x000000000000a1ca       0x67 ./bin/ata.o
-                0x000000000000a1ca                wait_BSY
-                0x000000000000a1e9                wait_DRQ
-                0x000000000000a20e                check_ERR
- *fill*         0x000000000000a231        0xf 
- .text          0x000000000000a240       0x24 ./bin/syscalls_entry.o
-                0x000000000000a240                syscall_entry
- .text          0x000000000000a264       0x70 ./bin/syscall_handler.o
-                0x000000000000a264                syscall_handler
-                0x000000000000a2b1                init_syscalls
- .text          0x000000000000a2d4       0x38 ./bin/syscall.o
-                0x000000000000a2d4                syscall
-                0x000000000000a2f4                write
- .text          0x000000000000a30c      0xe1c ./bin/filesystem.o
-                0x000000000000a30c                init_filesystem
-                0x000000000000a3ff                create_file
-                0x000000000000a514                remove_file
-                0x000000000000a66f                edit_file
-                0x000000000000a87b                cat_file
-                0x000000000000aa36                create_directory
-                0x000000000000ab5a                remove_directory
-                0x000000000000ac0c                change_directory
-                0x000000000000adb0                find_file_loop
-                0x000000000000af19                find_file
-                0x000000000000af6d                list_current_dir
- .text          0x000000000000b128      0x95e ./bin/pci.o
-                0x000000000000b128                pciConfigReadWord
-                0x000000000000b1cb                pciCheckVendor
-                0x000000000000b21e                get_vendor_name
-                0x000000000000b867                get_device_name
-                0x000000000000b884                get_pci_class_name
-                0x000000000000b8d9                checkDevice
-                0x000000000000ba23                list_pci_devices
- .text          0x000000000000ba86       0x25 ./bin/screen.o
-                0x000000000000ba86                init_screen
-                0x000000000000baa1                return_framebuffer
- .text          0x000000000000baab       0xd4 ./bin/time.o
-                0x000000000000baab                timer_phase
-                0x000000000000bafa                timer_handler
-                0x000000000000bb29                sleep
-                0x000000000000bb64                time_init
- .text          0x000000000000bb7f      0x25a ./bin/draw.o
-                0x000000000000bb7f                draw_pixel
-                0x000000000000bd0a                clear_screen
-                0x000000000000bd5a                return_pixel_color
-                0x000000000000bd94                rgba_to_hex
- .text          0x000000000000bdd9      0x3f4 ./bin/print.o
-                0x000000000000bdd9                get_char_bitmap
-                0x000000000000be00                put_char
-                0x000000000000bf90                put_string
-                0x000000000000bfbf                print
-                0x000000000000c18f                set_print_x_pos
-                0x000000000000c19d                set_print_y_pos
-                0x000000000000c1ab                get_print_x_pos
-                0x000000000000c1b5                get_print_y_pos
-                0x000000000000c1bf                set_print_color
- .text          0x000000000000c1cd      0x1a9 ./bin/event_queue.o
-                0x000000000000c1cd                init_event_queue
-                0x000000000000c23d                add_event
-                0x000000000000c293                remove_event
-                0x000000000000c32c                clear_event_queue
-                0x000000000000c36c                return_event_queue
- .text          0x000000000000c376      0x1cf ./bin/event_handler.o
-                0x000000000000c376                is_event_queue_empty
-                0x000000000000c388                handle_keyboard_events
-                0x000000000000c42c                handle_mouse_events
-                0x000000000000c452                handle_window_events
-                0x000000000000c470                handle_events
- .text          0x000000000000c545      0x32e ./bin/keyboard.o
-                0x000000000000c545                clear_last_char
-                0x000000000000c5ae                KeyboardHandler
-                0x000000000000c858                InitKeyboard
- .text          0x000000000000c873      0x238 ./bin/mouse.o
-                0x000000000000c873                MouseHandler
-                0x000000000000c9df                init_mouse
- .text          0x000000000000caab      0x63b ./bin/terminal.o
-                0x000000000000caab                parse_command_arguments
-                0x000000000000cb33                handle_terminal_cmd
+ .text          0x0000000000009260      0x115 ./bin/cpu.o
+                0x0000000000009260                cpuid
+                0x000000000000928a                get_cpu_vendor
+                0x00000000000092d6                get_cpu_model_info
+                0x0000000000009340                get_cpu_features
+ .text          0x0000000000009375       0xab ./bin/IoPorts.o
+                0x0000000000009375                outb
+                0x0000000000009394                inb
+                0x00000000000093af                outw
+                0x00000000000093d0                inw
+                0x00000000000093ee                outl
+                0x0000000000009405                inl
+ .text          0x0000000000009420      0x307 ./bin/string.o
+                0x0000000000009420                memset
+                0x0000000000009465                memcpy
+                0x0000000000009498                itoa
+                0x00000000000095a9                strcmp
+                0x00000000000095df                strncpy
+                0x0000000000009638                strlen
+                0x000000000000965c                strcat
+                0x000000000000969c                strncat
+                0x00000000000096f5                strrchr
+ .text          0x0000000000009727      0x204 ./bin/malloc.o
+                0x0000000000009727                Memory_Init
+                0x0000000000009766                AllocateMemory
+                0x0000000000009857                DeallocateMemory
+ *fill*         0x000000000000992b        0x5 
+ .text          0x0000000000009930      0x1d1 ./bin/interrupts.o
+                0x0000000000009930                _idt_load
+                0x0000000000009938                _isr0
+                0x0000000000009942                _isr1
+                0x000000000000994c                _isr2
+                0x0000000000009956                _isr3
+                0x0000000000009960                _isr4
+                0x000000000000996a                _isr5
+                0x0000000000009974                _isr6
+                0x0000000000009981                _isr7
+                0x000000000000998b                _isr8
+                0x0000000000009993                _isr9
+                0x000000000000999d                _isr10
+                0x00000000000099a5                _isr11
+                0x00000000000099ad                _isr12
+                0x00000000000099b5                _isr13
+                0x00000000000099bd                _isr14
+                0x00000000000099c2                _isr15
+                0x00000000000099c9                _isr16
+                0x00000000000099d0                _isr17
+                0x00000000000099d7                _isr18
+                0x00000000000099de                _isr19
+                0x00000000000099e5                _isr20
+                0x00000000000099ec                _isr21
+                0x00000000000099f3                _isr22
+                0x00000000000099fa                _isr23
+                0x0000000000009a01                _isr24
+                0x0000000000009a08                _isr25
+                0x0000000000009a0f                _isr26
+                0x0000000000009a16                _isr27
+                0x0000000000009a1d                _isr28
+                0x0000000000009a24                _isr29
+                0x0000000000009a2b                _isr30
+                0x0000000000009a32                _isr31
+                0x0000000000009a39                _syscall
+                0x0000000000009a68                irq0
+                0x0000000000009a6f                irq1
+                0x0000000000009a76                irq2
+                0x0000000000009a7d                irq3
+                0x0000000000009a84                irq4
+                0x0000000000009a8b                irq5
+                0x0000000000009a92                irq6
+                0x0000000000009a99                irq7
+                0x0000000000009aa0                irq8
+                0x0000000000009aa7                irq9
+                0x0000000000009aae                irq10
+                0x0000000000009ab5                irq11
+                0x0000000000009abc                irq12
+                0x0000000000009ac3                irq13
+                0x0000000000009aca                irq14
+                0x0000000000009ad1                irq15
+ .text          0x0000000000009b01       0xa0 ./bin/idt.o
+                0x0000000000009b01                idt_set_gate
+                0x0000000000009b69                idt_install
+ .text          0x0000000000009ba1      0x307 ./bin/irq.o
+                0x0000000000009ba1                irq_install_handler
+                0x0000000000009bb4                irq_uninstall_handler
+                0x0000000000009bc8                irq_remap
+                0x0000000000009c76                irq_install
+                0x0000000000009e15                _irq_handler
+                0x0000000000009e85                irq_wait
+ .text          0x0000000000009ea8      0x312 ./bin/isr.o
+                0x0000000000009ea8                isrs_install
+                0x000000000000a1ab                _fault_handler
+ .text          0x000000000000a1ba       0x67 ./bin/ata.o
+                0x000000000000a1ba                wait_BSY
+                0x000000000000a1d9                wait_DRQ
+                0x000000000000a1fe                check_ERR
+ *fill*         0x000000000000a221        0xf 
+ .text          0x000000000000a230       0x24 ./bin/syscalls_entry.o
+                0x000000000000a230                syscall_entry
+ .text          0x000000000000a254       0xf0 ./bin/syscall_handler.o
+                0x000000000000a254                syscall_handler
+                0x000000000000a321                init_syscalls
+ .text          0x000000000000a344       0x97 ./bin/syscall.o
+                0x000000000000a344                syscall
+                0x000000000000a364                syscall_exit
+                0x000000000000a37b                syscall_creat
+                0x000000000000a394                syscall_unlink
+                0x000000000000a3ab                syscall_mkdir
+                0x000000000000a3c4                syscall_rmdir
+ .text          0x000000000000a3db      0xe1c ./bin/filesystem.o
+                0x000000000000a3db                init_filesystem
+                0x000000000000a4ce                create_file
+                0x000000000000a5e3                remove_file
+                0x000000000000a73e                edit_file
+                0x000000000000a94a                cat_file
+                0x000000000000ab05                create_directory
+                0x000000000000ac29                remove_directory
+                0x000000000000acdb                change_directory
+                0x000000000000ae7f                find_file_loop
+                0x000000000000afe8                find_file
+                0x000000000000b03c                list_current_dir
+ .text          0x000000000000b1f7      0x95e ./bin/pci.o
+                0x000000000000b1f7                pciConfigReadWord
+                0x000000000000b29a                pciCheckVendor
+                0x000000000000b2ed                get_vendor_name
+                0x000000000000b936                get_device_name
+                0x000000000000b953                get_pci_class_name
+                0x000000000000b9a8                checkDevice
+                0x000000000000baf2                list_pci_devices
+ .text          0x000000000000bb55       0x25 ./bin/screen.o
+                0x000000000000bb55                init_screen
+                0x000000000000bb70                return_framebuffer
+ .text          0x000000000000bb7a       0xd4 ./bin/time.o
+                0x000000000000bb7a                timer_phase
+                0x000000000000bbc9                timer_handler
+                0x000000000000bbf8                sleep
+                0x000000000000bc33                time_init
+ .text          0x000000000000bc4e      0x25a ./bin/draw.o
+                0x000000000000bc4e                draw_pixel
+                0x000000000000bdd9                clear_screen
+                0x000000000000be29                return_pixel_color
+                0x000000000000be63                rgba_to_hex
+ .text          0x000000000000bea8      0x477 ./bin/print.o
+                0x000000000000bea8                get_char_bitmap
+                0x000000000000becf                put_char
+                0x000000000000c05f                put_string
+                0x000000000000c08e                print
+                0x000000000000c2e1                set_print_x_pos
+                0x000000000000c2ef                set_print_y_pos
+                0x000000000000c2fd                get_print_x_pos
+                0x000000000000c307                get_print_y_pos
+                0x000000000000c311                set_print_color
+ .text          0x000000000000c31f      0x1a9 ./bin/event_queue.o
+                0x000000000000c31f                init_event_queue
+                0x000000000000c38f                add_event
+                0x000000000000c3e5                remove_event
+                0x000000000000c47e                clear_event_queue
+                0x000000000000c4be                return_event_queue
+ .text          0x000000000000c4c8      0x245 ./bin/event_handler.o
+                0x000000000000c4c8                is_event_queue_empty
+                0x000000000000c4da                handle_keyboard_events
+                0x000000000000c57e                handle_mouse_events
+                0x000000000000c61a                handle_window_events
+                0x000000000000c638                handle_events
+ .text          0x000000000000c70d      0x32e ./bin/keyboard.o
+                0x000000000000c70d                clear_last_char
+                0x000000000000c776                KeyboardHandler
+                0x000000000000ca20                InitKeyboard
+ .text          0x000000000000ca3b      0x389 ./bin/mouse.o
+                0x000000000000ca3b                undraw_mouse
+                0x000000000000caae                draw_mouse
+                0x000000000000cb8c                MouseHandler
+                0x000000000000ccf8                init_mouse
+ .text          0x000000000000cdc4      0x63f ./bin/terminal.o
+                0x000000000000cdc4                parse_command_arguments
+                0x000000000000ce4c                handle_terminal_cmd
 
-.iplt           0x000000000000d0e6        0x0
- .iplt          0x000000000000d0e6        0x0 ./bin/kernel_entry.o
+.iplt           0x000000000000d403        0x0
+ .iplt          0x000000000000d403        0x0 ./bin/kernel_entry.o
 
-.rodata         0x000000000000e000     0x47ad
+.rodata         0x000000000000e000     0x47ed
  *(.rodata*)
- .rodata        0x000000000000e000      0xd36 ./bin/kernel.o
- *fill*         0x000000000000ed36        0x2 
- .rodata        0x000000000000ed38       0x31 ./bin/malloc.o
- .rodata        0x000000000000ed69       0x2e ./bin/syscall_handler.o
- .rodata        0x000000000000ed97       0x5f ./bin/filesystem.o
- *fill*         0x000000000000edf6        0xa 
- .rodata        0x000000000000ee00     0x1058 ./bin/pci.o
- .rodata        0x000000000000fe58       0x84 ./bin/print.o
- .rodata        0x000000000000fedc       0x2b ./bin/event_queue.o
- *fill*         0x000000000000ff07       0x19 
- .rodata        0x000000000000ff20      0xbeb ./bin/event_handler.o
- *fill*         0x0000000000010b0b       0x15 
- .rodata        0x0000000000010b20      0xcb8 ./bin/keyboard.o
- .rodata        0x00000000000117d8        0xc ./bin/mouse.o
- *fill*         0x00000000000117e4       0x1c 
- .rodata        0x0000000000011800      0xfad ./bin/terminal.o
+ .rodata        0x000000000000e000      0xd30 ./bin/kernel.o
+ .rodata        0x000000000000ed30       0x31 ./bin/malloc.o
+ *fill*         0x000000000000ed61        0x3 
+ .rodata        0x000000000000ed64       0x74 ./bin/syscall_handler.o
+ .rodata        0x000000000000edd8       0x5f ./bin/filesystem.o
+ *fill*         0x000000000000ee37        0x9 
+ .rodata        0x000000000000ee40     0x1058 ./bin/pci.o
+ .rodata        0x000000000000fe98       0x84 ./bin/print.o
+ .rodata        0x000000000000ff1c       0x2b ./bin/event_queue.o
+ *fill*         0x000000000000ff47       0x19 
+ .rodata        0x000000000000ff60      0xbeb ./bin/event_handler.o
+ *fill*         0x0000000000010b4b       0x15 
+ .rodata        0x0000000000010b60      0xcb8 ./bin/keyboard.o
+ .rodata        0x0000000000011818        0xc ./bin/mouse.o
+ *fill*         0x0000000000011824       0x1c 
+ .rodata        0x0000000000011840      0xfad ./bin/terminal.o
 
-.rel.dyn        0x00000000000127b0        0x0
- .rel.got       0x00000000000127b0        0x0 ./bin/kernel_entry.o
- .rel.iplt      0x00000000000127b0        0x0 ./bin/kernel_entry.o
+.rel.dyn        0x00000000000127f0        0x0
+ .rel.got       0x00000000000127f0        0x0 ./bin/kernel_entry.o
+ .rel.iplt      0x00000000000127f0        0x0 ./bin/kernel_entry.o
 
 .data           0x0000000000013000     0x2306
  *(.data*)
@@ -255,7 +261,7 @@ Linker script and memory map
 .igot.plt       0x0000000000015308        0x0
  .igot.plt      0x0000000000015308        0x0 ./bin/kernel_entry.o
 
-.bss            0x0000000000016000      0xf78
+.bss            0x0000000000016000     0x1084
  *(COMMON)
  *(.bss*)
  .bss           0x0000000000016000        0x0 ./bin/kernel.o
@@ -300,17 +306,19 @@ Linker script and memory map
                 0x0000000000016b42                winpressed
                 0x0000000000016b60                text_buffer
                 0x0000000000016f48                text_length
- .bss           0x0000000000016f4c       0x2c ./bin/mouse.o
-                0x0000000000016f4c                mousePacket
-                0x0000000000016f50                mouse_x_pos
-                0x0000000000016f54                mouse_y_pos
-                0x0000000000016f58                mouse_prev_x_pos
-                0x0000000000016f5c                mouse_prev_y_pos
-                0x0000000000016f60                mouse_m1_pressed
-                0x0000000000016f64                mouseData
-                0x0000000000016f65                mouseCycle
-                0x0000000000016f68                mouse_pos_holder
- .bss           0x0000000000016f78        0x0 ./bin/terminal.o
+ *fill*         0x0000000000016f4c       0x14 
+ .bss           0x0000000000016f60      0x124 ./bin/mouse.o
+                0x0000000000016f60                mousePacket
+                0x0000000000016f64                mouse_x_pos
+                0x0000000000016f68                mouse_y_pos
+                0x0000000000016f6c                mouse_prev_x_pos
+                0x0000000000016f70                mouse_prev_y_pos
+                0x0000000000016f74                mouse_m1_pressed
+                0x0000000000016f78                mouseData
+                0x0000000000016f79                mouseCycle
+                0x0000000000016f7c                mouse_pos_holder
+                0x0000000000016fa0                background_buffer
+ .bss           0x0000000000017084        0x0 ./bin/terminal.o
 LOAD ./bin/kernel_entry.o
 LOAD ./bin/kernel.o
 LOAD ./bin/cpu.o
@@ -338,53 +346,53 @@ LOAD ./bin/mouse.o
 LOAD ./bin/terminal.o
 OUTPUT(./bin/kernel32.elf elf32-i386)
 
-.debug_info     0x0000000000000000     0x40cc
- .debug_info    0x0000000000000000      0x1fa ./bin/kernel.o
- .debug_info    0x00000000000001fa      0x220 ./bin/cpu.o
- .debug_info    0x000000000000041a      0x1cf ./bin/IoPorts.o
- .debug_info    0x00000000000005e9      0x3e2 ./bin/string.o
- .debug_info    0x00000000000009cb      0x1c1 ./bin/malloc.o
- .debug_info    0x0000000000000b8c      0x1b1 ./bin/idt.o
- .debug_info    0x0000000000000d3d      0x3e3 ./bin/irq.o
- .debug_info    0x0000000000001120      0x318 ./bin/isr.o
- .debug_info    0x0000000000001438       0xe4 ./bin/ata.o
- .debug_info    0x000000000000151c      0x1b4 ./bin/syscall_handler.o
- .debug_info    0x00000000000016d0      0x111 ./bin/syscall.o
- .debug_info    0x00000000000017e1      0x851 ./bin/filesystem.o
- .debug_info    0x0000000000002032      0x3e8 ./bin/pci.o
- .debug_info    0x000000000000241a       0xc7 ./bin/screen.o
- .debug_info    0x00000000000024e1      0x28d ./bin/time.o
- .debug_info    0x000000000000276e      0x280 ./bin/draw.o
- .debug_info    0x00000000000029ee      0x41c ./bin/print.o
- .debug_info    0x0000000000002e0a      0x228 ./bin/event_queue.o
- .debug_info    0x0000000000003032      0x347 ./bin/event_handler.o
- .debug_info    0x0000000000003379      0x4d9 ./bin/keyboard.o
- .debug_info    0x0000000000003852      0x3e5 ./bin/mouse.o
- .debug_info    0x0000000000003c37      0x495 ./bin/terminal.o
+.debug_info     0x0000000000000000     0x456a
+ .debug_info    0x0000000000000000      0x1ea ./bin/kernel.o
+ .debug_info    0x00000000000001ea      0x220 ./bin/cpu.o
+ .debug_info    0x000000000000040a      0x1cf ./bin/IoPorts.o
+ .debug_info    0x00000000000005d9      0x3e2 ./bin/string.o
+ .debug_info    0x00000000000009bb      0x1c1 ./bin/malloc.o
+ .debug_info    0x0000000000000b7c      0x1b1 ./bin/idt.o
+ .debug_info    0x0000000000000d2d      0x3e3 ./bin/irq.o
+ .debug_info    0x0000000000001110      0x318 ./bin/isr.o
+ .debug_info    0x0000000000001428       0xe4 ./bin/ata.o
+ .debug_info    0x000000000000150c      0x2dd ./bin/syscall_handler.o
+ .debug_info    0x00000000000017e9      0x1f9 ./bin/syscall.o
+ .debug_info    0x00000000000019e2      0x86d ./bin/filesystem.o
+ .debug_info    0x000000000000224f      0x3e8 ./bin/pci.o
+ .debug_info    0x0000000000002637       0xc7 ./bin/screen.o
+ .debug_info    0x00000000000026fe      0x28d ./bin/time.o
+ .debug_info    0x000000000000298b      0x280 ./bin/draw.o
+ .debug_info    0x0000000000002c0b      0x45a ./bin/print.o
+ .debug_info    0x0000000000003065      0x228 ./bin/event_queue.o
+ .debug_info    0x000000000000328d      0x3c7 ./bin/event_handler.o
+ .debug_info    0x0000000000003654      0x4d9 ./bin/keyboard.o
+ .debug_info    0x0000000000003b2d      0x571 ./bin/mouse.o
+ .debug_info    0x000000000000409e      0x4cc ./bin/terminal.o
 
-.debug_abbrev   0x0000000000000000     0x1aa3
- .debug_abbrev  0x0000000000000000      0x103 ./bin/kernel.o
- .debug_abbrev  0x0000000000000103       0xb0 ./bin/cpu.o
- .debug_abbrev  0x00000000000001b3       0xb2 ./bin/IoPorts.o
- .debug_abbrev  0x0000000000000265       0xd0 ./bin/string.o
- .debug_abbrev  0x0000000000000335      0x134 ./bin/malloc.o
- .debug_abbrev  0x0000000000000469      0x13a ./bin/idt.o
- .debug_abbrev  0x00000000000005a3      0x1a3 ./bin/irq.o
- .debug_abbrev  0x0000000000000746       0xd6 ./bin/isr.o
- .debug_abbrev  0x000000000000081c       0x8a ./bin/ata.o
- .debug_abbrev  0x00000000000008a6      0x117 ./bin/syscall_handler.o
- .debug_abbrev  0x00000000000009bd       0xa4 ./bin/syscall.o
- .debug_abbrev  0x0000000000000a61      0x24c ./bin/filesystem.o
- .debug_abbrev  0x0000000000000cad      0x193 ./bin/pci.o
- .debug_abbrev  0x0000000000000e40       0x85 ./bin/screen.o
- .debug_abbrev  0x0000000000000ec5      0x135 ./bin/time.o
- .debug_abbrev  0x0000000000000ffa      0x11c ./bin/draw.o
- .debug_abbrev  0x0000000000001116      0x187 ./bin/print.o
- .debug_abbrev  0x000000000000129d      0x174 ./bin/event_queue.o
- .debug_abbrev  0x0000000000001411      0x1cc ./bin/event_handler.o
- .debug_abbrev  0x00000000000015dd      0x1dd ./bin/keyboard.o
- .debug_abbrev  0x00000000000017ba      0x171 ./bin/mouse.o
- .debug_abbrev  0x000000000000192b      0x178 ./bin/terminal.o
+.debug_abbrev   0x0000000000000000     0x1b48
+ .debug_abbrev  0x0000000000000000      0x102 ./bin/kernel.o
+ .debug_abbrev  0x0000000000000102       0xb0 ./bin/cpu.o
+ .debug_abbrev  0x00000000000001b2       0xb2 ./bin/IoPorts.o
+ .debug_abbrev  0x0000000000000264       0xd0 ./bin/string.o
+ .debug_abbrev  0x0000000000000334      0x134 ./bin/malloc.o
+ .debug_abbrev  0x0000000000000468      0x13a ./bin/idt.o
+ .debug_abbrev  0x00000000000005a2      0x1a3 ./bin/irq.o
+ .debug_abbrev  0x0000000000000745       0xd6 ./bin/isr.o
+ .debug_abbrev  0x000000000000081b       0x8a ./bin/ata.o
+ .debug_abbrev  0x00000000000008a5      0x145 ./bin/syscall_handler.o
+ .debug_abbrev  0x00000000000009ea       0xbd ./bin/syscall.o
+ .debug_abbrev  0x0000000000000aa7      0x24c ./bin/filesystem.o
+ .debug_abbrev  0x0000000000000cf3      0x193 ./bin/pci.o
+ .debug_abbrev  0x0000000000000e86       0x85 ./bin/screen.o
+ .debug_abbrev  0x0000000000000f0b      0x135 ./bin/time.o
+ .debug_abbrev  0x0000000000001040      0x11c ./bin/draw.o
+ .debug_abbrev  0x000000000000115c      0x187 ./bin/print.o
+ .debug_abbrev  0x00000000000012e3      0x174 ./bin/event_queue.o
+ .debug_abbrev  0x0000000000001457      0x1cc ./bin/event_handler.o
+ .debug_abbrev  0x0000000000001623      0x1dd ./bin/keyboard.o
+ .debug_abbrev  0x0000000000001800      0x1b4 ./bin/mouse.o
+ .debug_abbrev  0x00000000000019b4      0x194 ./bin/terminal.o
 
 .debug_aranges  0x0000000000000000      0x2c0
  .debug_aranges
@@ -432,144 +440,144 @@ OUTPUT(./bin/kernel32.elf elf32-i386)
  .debug_aranges
                 0x00000000000002a0       0x20 ./bin/terminal.o
 
-.debug_line     0x0000000000000000     0x201e
- .debug_line    0x0000000000000000       0xe2 ./bin/kernel.o
- .debug_line    0x00000000000000e2       0xb4 ./bin/cpu.o
- .debug_line    0x0000000000000196       0x87 ./bin/IoPorts.o
- .debug_line    0x000000000000021d      0x2c9 ./bin/string.o
- .debug_line    0x00000000000004e6      0x187 ./bin/malloc.o
- .debug_line    0x000000000000066d       0x94 ./bin/idt.o
- .debug_line    0x0000000000000701      0x10e ./bin/irq.o
- .debug_line    0x000000000000080f       0xa8 ./bin/isr.o
- .debug_line    0x00000000000008b7       0x92 ./bin/ata.o
- .debug_line    0x0000000000000949       0x6d ./bin/syscall_handler.o
- .debug_line    0x00000000000009b6       0x5b ./bin/syscall.o
- .debug_line    0x0000000000000a11      0x71f ./bin/filesystem.o
- .debug_line    0x0000000000001130      0x1bd ./bin/pci.o
- .debug_line    0x00000000000012ed       0x68 ./bin/screen.o
- .debug_line    0x0000000000001355       0xac ./bin/time.o
- .debug_line    0x0000000000001401      0x154 ./bin/draw.o
- .debug_line    0x0000000000001555      0x26e ./bin/print.o
- .debug_line    0x00000000000017c3      0x12c ./bin/event_queue.o
- .debug_line    0x00000000000018ef      0x12e ./bin/event_handler.o
- .debug_line    0x0000000000001a1d      0x1b2 ./bin/keyboard.o
- .debug_line    0x0000000000001bcf      0x169 ./bin/mouse.o
- .debug_line    0x0000000000001d38      0x2e6 ./bin/terminal.o
+.debug_line     0x0000000000000000     0x21f7
+ .debug_line    0x0000000000000000       0xe1 ./bin/kernel.o
+ .debug_line    0x00000000000000e1       0xb4 ./bin/cpu.o
+ .debug_line    0x0000000000000195       0x87 ./bin/IoPorts.o
+ .debug_line    0x000000000000021c      0x2c9 ./bin/string.o
+ .debug_line    0x00000000000004e5      0x187 ./bin/malloc.o
+ .debug_line    0x000000000000066c       0x94 ./bin/idt.o
+ .debug_line    0x0000000000000700      0x10e ./bin/irq.o
+ .debug_line    0x000000000000080e       0xa8 ./bin/isr.o
+ .debug_line    0x00000000000008b6       0x92 ./bin/ata.o
+ .debug_line    0x0000000000000948       0xbf ./bin/syscall_handler.o
+ .debug_line    0x0000000000000a07       0x84 ./bin/syscall.o
+ .debug_line    0x0000000000000a8b      0x71f ./bin/filesystem.o
+ .debug_line    0x00000000000011aa      0x1bd ./bin/pci.o
+ .debug_line    0x0000000000001367       0x68 ./bin/screen.o
+ .debug_line    0x00000000000013cf       0xac ./bin/time.o
+ .debug_line    0x000000000000147b      0x154 ./bin/draw.o
+ .debug_line    0x00000000000015cf      0x2a9 ./bin/print.o
+ .debug_line    0x0000000000001878      0x12c ./bin/event_queue.o
+ .debug_line    0x00000000000019a4      0x161 ./bin/event_handler.o
+ .debug_line    0x0000000000001b05      0x1b6 ./bin/keyboard.o
+ .debug_line    0x0000000000001cbb      0x24d ./bin/mouse.o
+ .debug_line    0x0000000000001f08      0x2ef ./bin/terminal.o
 
-.debug_str      0x0000000000000000      0xeb7
- .debug_str     0x0000000000000000      0x1aa ./bin/kernel.o
-                                        0x1ee (size before relaxing)
- .debug_str     0x00000000000001aa       0x74 ./bin/cpu.o
+.debug_str      0x0000000000000000      0xf93
+ .debug_str     0x0000000000000000      0x1a4 ./bin/kernel.o
+                                        0x1e8 (size before relaxing)
+ .debug_str     0x00000000000001a4       0x74 ./bin/cpu.o
                                         0x150 (size before relaxing)
- .debug_str     0x000000000000021e       0x23 ./bin/IoPorts.o
+ .debug_str     0x0000000000000218       0x23 ./bin/IoPorts.o
                                         0x11a (size before relaxing)
- .debug_str     0x0000000000000241       0x8d ./bin/string.o
+ .debug_str     0x000000000000023b       0x8d ./bin/string.o
                                         0x19f (size before relaxing)
- .debug_str     0x00000000000002ce       0x60 ./bin/malloc.o
+ .debug_str     0x00000000000002c8       0x60 ./bin/malloc.o
                                         0x176 (size before relaxing)
- .debug_str     0x000000000000032e       0x4d ./bin/idt.o
+ .debug_str     0x0000000000000328       0x4d ./bin/idt.o
                                         0x153 (size before relaxing)
- .debug_str     0x000000000000037b       0xe3 ./bin/irq.o
+ .debug_str     0x0000000000000375       0xe3 ./bin/irq.o
                                         0x1fb (size before relaxing)
- .debug_str     0x000000000000045e       0xee ./bin/isr.o
+ .debug_str     0x0000000000000458       0xee ./bin/isr.o
                                         0x1b3 (size before relaxing)
- .debug_str     0x000000000000054c       0x22 ./bin/ata.o
+ .debug_str     0x0000000000000546       0x22 ./bin/ata.o
                                         0x114 (size before relaxing)
- .debug_str     0x000000000000056e       0x29 ./bin/syscall_handler.o
-                                        0x131 (size before relaxing)
- .debug_str     0x0000000000000597       0x17 ./bin/syscall.o
-                                        0x10b (size before relaxing)
- .debug_str     0x00000000000005ae      0x384 ./bin/filesystem.o
-                                        0x51f (size before relaxing)
- .debug_str     0x0000000000000932       0xd8 ./bin/pci.o
+ .debug_str     0x0000000000000568       0xbb ./bin/syscall_handler.o
+                                        0x1c8 (size before relaxing)
+ .debug_str     0x0000000000000623       0x60 ./bin/syscall.o
+                                        0x1ac (size before relaxing)
+ .debug_str     0x0000000000000683      0x339 ./bin/filesystem.o
+                                        0x531 (size before relaxing)
+ .debug_str     0x00000000000009bc       0xd8 ./bin/pci.o
                                         0x23b (size before relaxing)
- .debug_str     0x0000000000000a0a       0x13 ./bin/screen.o
+ .debug_str     0x0000000000000a94       0x13 ./bin/screen.o
                                         0x115 (size before relaxing)
- .debug_str     0x0000000000000a1d       0x58 ./bin/time.o
+ .debug_str     0x0000000000000aa7       0x58 ./bin/time.o
                                         0x199 (size before relaxing)
- .debug_str     0x0000000000000a75       0x81 ./bin/draw.o
+ .debug_str     0x0000000000000aff       0x81 ./bin/draw.o
                                         0x1a8 (size before relaxing)
- .debug_str     0x0000000000000af6       0xc9 ./bin/print.o
-                                        0x217 (size before relaxing)
- .debug_str     0x0000000000000bbf       0x93 ./bin/event_queue.o
+ .debug_str     0x0000000000000b80       0xd3 ./bin/print.o
+                                        0x221 (size before relaxing)
+ .debug_str     0x0000000000000c53       0x93 ./bin/event_queue.o
                                         0x1d9 (size before relaxing)
- .debug_str     0x0000000000000c52      0x100 ./bin/event_handler.o
-                                        0x2cf (size before relaxing)
- .debug_str     0x0000000000000d52       0x7d ./bin/keyboard.o
+ .debug_str     0x0000000000000ce6      0x117 ./bin/event_handler.o
+                                        0x306 (size before relaxing)
+ .debug_str     0x0000000000000dfd       0x7d ./bin/keyboard.o
                                         0x308 (size before relaxing)
- .debug_str     0x0000000000000dcf       0xa6 ./bin/mouse.o
-                                        0x26e (size before relaxing)
- .debug_str     0x0000000000000e75       0x42 ./bin/terminal.o
-                                        0x2f4 (size before relaxing)
+ .debug_str     0x0000000000000e7a       0xd7 ./bin/mouse.o
+                                        0x2fa (size before relaxing)
+ .debug_str     0x0000000000000f51       0x42 ./bin/terminal.o
+                                        0x338 (size before relaxing)
 
 .debug_line_str
-                0x0000000000000000      0x8f5
+                0x0000000000000000      0xa07
  .debug_line_str
-                0x0000000000000000      0x250 ./bin/kernel.o
-                                        0x273 (size before relaxing)
+                0x0000000000000000      0x25c ./bin/kernel.o
+                                        0x27f (size before relaxing)
  .debug_line_str
-                0x0000000000000250       0x15 ./bin/cpu.o
+                0x000000000000025c       0x15 ./bin/cpu.o
                                          0x95 (size before relaxing)
  .debug_line_str
-                0x0000000000000265       0x14 ./bin/IoPorts.o
+                0x0000000000000271       0x14 ./bin/IoPorts.o
                                          0x97 (size before relaxing)
  .debug_line_str
-                0x0000000000000279       0x1c ./bin/string.o
+                0x0000000000000285       0x1c ./bin/string.o
                                          0x9d (size before relaxing)
  .debug_line_str
-                0x0000000000000295       0x3c ./bin/malloc.o
+                0x00000000000002a1       0x3c ./bin/malloc.o
                                          0xd7 (size before relaxing)
  .debug_line_str
-                0x00000000000002d1       0x34 ./bin/idt.o
+                0x00000000000002dd       0x34 ./bin/idt.o
                                          0xae (size before relaxing)
  .debug_line_str
-                0x0000000000000305       0x2c ./bin/irq.o
+                0x0000000000000311       0x2c ./bin/irq.o
                                          0xc8 (size before relaxing)
  .debug_line_str
-                0x0000000000000331       0x13 ./bin/isr.o
+                0x000000000000033d       0x13 ./bin/isr.o
                                          0x63 (size before relaxing)
  .debug_line_str
-                0x0000000000000344       0x28 ./bin/ata.o
+                0x0000000000000350       0x28 ./bin/ata.o
                                          0xa3 (size before relaxing)
  .debug_line_str
-                0x000000000000036c       0x38 ./bin/syscall_handler.o
-                                         0x8f (size before relaxing)
+                0x0000000000000378       0x60 ./bin/syscall_handler.o
+                                         0xce (size before relaxing)
  .debug_line_str
-                0x00000000000003a4       0x15 ./bin/syscall.o
-                                         0x56 (size before relaxing)
+                0x00000000000003d8       0x15 ./bin/syscall.o
+                                         0x6d (size before relaxing)
  .debug_line_str
-                0x00000000000003b9       0x63 ./bin/filesystem.o
+                0x00000000000003ed       0x63 ./bin/filesystem.o
                                         0x11f (size before relaxing)
  .debug_line_str
-                0x000000000000041c       0x40 ./bin/pci.o
+                0x0000000000000450       0x40 ./bin/pci.o
                                          0xd8 (size before relaxing)
  .debug_line_str
-                0x000000000000045c       0x1b ./bin/screen.o
+                0x0000000000000490       0x1b ./bin/screen.o
                                          0xa4 (size before relaxing)
  .debug_line_str
-                0x0000000000000477       0x42 ./bin/time.o
+                0x00000000000004ab       0x42 ./bin/time.o
                                          0xd5 (size before relaxing)
  .debug_line_str
-                0x00000000000004b9       0x33 ./bin/draw.o
+                0x00000000000004ed       0x33 ./bin/draw.o
                                          0xbf (size before relaxing)
  .debug_line_str
-                0x00000000000004ec       0x79 ./bin/print.o
+                0x0000000000000520       0x79 ./bin/print.o
                                         0x107 (size before relaxing)
  .debug_line_str
-                0x0000000000000565       0x65 ./bin/event_queue.o
+                0x0000000000000599       0x65 ./bin/event_queue.o
                                         0x123 (size before relaxing)
  .debug_line_str
-                0x00000000000005ca       0xb1 ./bin/event_handler.o
-                                        0x162 (size before relaxing)
+                0x00000000000005fe      0x104 ./bin/event_handler.o
+                                        0x1c4 (size before relaxing)
  .debug_line_str
-                0x000000000000067b       0xf9 ./bin/keyboard.o
-                                        0x1b9 (size before relaxing)
+                0x0000000000000702      0x144 ./bin/keyboard.o
+                                        0x204 (size before relaxing)
  .debug_line_str
-                0x0000000000000774       0x9f ./bin/mouse.o
-                                        0x149 (size before relaxing)
+                0x0000000000000846       0xc6 ./bin/mouse.o
+                                        0x177 (size before relaxing)
  .debug_line_str
-                0x0000000000000813       0xe2 ./bin/terminal.o
-                                        0x1a5 (size before relaxing)
+                0x000000000000090c       0xfb ./bin/terminal.o
+                                        0x1c8 (size before relaxing)
 
 .comment        0x0000000000000000       0x12
  .comment       0x0000000000000000       0x12 ./bin/kernel.o
@@ -596,7 +604,7 @@ OUTPUT(./bin/kernel32.elf elf32-i386)
  .comment       0x0000000000000012       0x13 ./bin/mouse.o
  .comment       0x0000000000000012       0x13 ./bin/terminal.o
 
-.debug_frame    0x0000000000000000      0xdd8
+.debug_frame    0x0000000000000000      0xe9c
  .debug_frame   0x0000000000000000       0x34 ./bin/kernel.o
  .debug_frame   0x0000000000000034       0x9c ./bin/cpu.o
  .debug_frame   0x00000000000000d0       0xd4 ./bin/IoPorts.o
@@ -607,18 +615,18 @@ OUTPUT(./bin/kernel32.elf elf32-i386)
  .debug_frame   0x0000000000000474       0x54 ./bin/isr.o
  .debug_frame   0x00000000000004c8       0x74 ./bin/ata.o
  .debug_frame   0x000000000000053c       0x54 ./bin/syscall_handler.o
- .debug_frame   0x0000000000000590       0x58 ./bin/syscall.o
- .debug_frame   0x00000000000005e8      0x17c ./bin/filesystem.o
- .debug_frame   0x0000000000000764      0x104 ./bin/pci.o
- .debug_frame   0x0000000000000868       0x54 ./bin/screen.o
- .debug_frame   0x00000000000008bc       0x94 ./bin/time.o
- .debug_frame   0x0000000000000950       0x9c ./bin/draw.o
- .debug_frame   0x00000000000009ec      0x138 ./bin/print.o
- .debug_frame   0x0000000000000b24       0xcc ./bin/event_queue.o
- .debug_frame   0x0000000000000bf0       0xb4 ./bin/event_handler.o
- .debug_frame   0x0000000000000ca4       0x80 ./bin/keyboard.o
- .debug_frame   0x0000000000000d24       0x60 ./bin/mouse.o
- .debug_frame   0x0000000000000d84       0x54 ./bin/terminal.o
+ .debug_frame   0x0000000000000590       0xd8 ./bin/syscall.o
+ .debug_frame   0x0000000000000668      0x17c ./bin/filesystem.o
+ .debug_frame   0x00000000000007e4      0x104 ./bin/pci.o
+ .debug_frame   0x00000000000008e8       0x54 ./bin/screen.o
+ .debug_frame   0x000000000000093c       0x94 ./bin/time.o
+ .debug_frame   0x00000000000009d0       0x9c ./bin/draw.o
+ .debug_frame   0x0000000000000a6c      0x138 ./bin/print.o
+ .debug_frame   0x0000000000000ba4       0xcc ./bin/event_queue.o
+ .debug_frame   0x0000000000000c70       0xb4 ./bin/event_handler.o
+ .debug_frame   0x0000000000000d24       0x80 ./bin/keyboard.o
+ .debug_frame   0x0000000000000da4       0xa4 ./bin/mouse.o
+ .debug_frame   0x0000000000000e48       0x54 ./bin/terminal.o
 
 .debug_rnglists
                 0x0000000000000000       0x17
