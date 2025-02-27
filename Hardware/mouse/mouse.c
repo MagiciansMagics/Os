@@ -14,11 +14,21 @@ uint8_t background_buffer[HCURSOR * WCURSOR];
 void undraw_mouse(int prev_mouse_x, int prev_mouse_y)
 {
     int index = 0;
-    for (int h = 0; h < HCURSOR; h++)
+    for (int y = 0; y < HCURSOR; y++)
     {
-        for (int w = 0; w < WCURSOR; w++)
+        int x = 0;
+        for (int i = 0; i < 2; i++)
         {
-            draw_pixel(prev_mouse_x + w, prev_mouse_y + h, background_buffer[index++]);
+            uint8_t byte = cursor[y * 2 + i];
+            for (int j = 7; j >= 0; j--)
+            {
+                if (byte & (1 << j))
+                {
+                    draw_pixel(prev_mouse_x + x, prev_mouse_y + y, background_buffer[index]);
+                }
+                index++;
+                x++;
+            }
         }
     }
 }
