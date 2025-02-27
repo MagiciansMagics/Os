@@ -8,7 +8,7 @@
 <li>Event-Driven Architecture: Done</li><br>
 <li>Timer: Done</li><br>
 <li>Terminal: Done</li><br>
-<li>Mouse: Technically done, but im not handling drawing yet</li><br>
+<li>Mouse: Done(Drawing underwork currently)</li><br>
 <li>Filesystem: Done(Huge update from earlier)</li><br>
 <li>Disk Io services: Undone</li><br>
 <li>Syscalls: done</li><br>
