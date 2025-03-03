@@ -42,8 +42,20 @@ void clear_screen(uint32_t color)
 uint32_t return_pixel_color(int x, int y)
 {
     uint32_t *framebuffer = return_framebuffer();
+
+    if (!framebuffer)
+    {
+        return 0;
+    }
+
+    if (x < 0 || x >= WSCREEN || y < 0 || y >= HSCREEN)
+    {
+        return 0;
+    }
+
     return framebuffer[y * WSCREEN + x];
 }
+
 
 uint32_t rgba_to_hex(uint8_t r, uint8_t g, uint8_t b, uint8_t a) 
 {

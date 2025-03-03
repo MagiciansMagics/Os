@@ -18,7 +18,7 @@ int handle_keyboard_events(Event* queue, int index)
             if (queue[index].data)
             {
                 char character = ((char*)queue[index].data)[0];
-                print("%c", character);
+                //print("%c", character);
             }  
             break;
         }
@@ -26,7 +26,7 @@ int handle_keyboard_events(Event* queue, int index)
         case KEYBOARD_ENTER:
         {
             char* cmd = (char*)queue[index].data;
-            handle_terminal_cmd(cmd);
+            //handle_terminal_cmd(cmd);
             break;
         }
 
@@ -40,17 +40,6 @@ int handle_mouse_events(Event* queue, int index)
 {
     switch (queue[index].subtype)
     {
-        case MOUSE_MOVED:
-        {
-            int* mouse_ptr = (int*)queue[index].data;
-            if (mouse_ptr)
-            {
-                undraw_mouse(mouse_ptr[2], mouse_ptr[3]);
-                draw_mouse(mouse_ptr[0], mouse_ptr[1], rgba_to_hex(255, 255, 255, 255)); // Draw new position
-            }
-            break;
-        }
-
         case MOUSE_CLICKED:
         {
             // here make it handle if its currently over a gui and pressing etc.

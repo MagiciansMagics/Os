@@ -12,6 +12,5 @@
 
 void init_mouse();
 void draw_mouse(int mouse_x, int mouse_y, uint32_t color);
-void undraw_mouse(int prev_mouse_x, int prev_mouse_y);
 
 #endif

@@ -29,7 +29,6 @@ typedef enum
 
 typedef enum
 {
-    MOUSE_MOVED,
     MOUSE_CLICKED,
     MOUSE_SCROLLED
 } MouseEventType;

@@ -9,49 +9,39 @@ uint8_t mouseData;
 uint8_t mouseCycle;
 
 int mouse_pos_holder[4] = {};
-uint8_t background_buffer[HCURSOR * WCURSOR];
+uint32_t background_buffer[HCURSOR * WCURSOR];
 
-void undraw_mouse(int prev_mouse_x, int prev_mouse_y)
+void clear_mouse_trails(int prev_mouse_x, int prev_mouse_y)
 {
-    int index = 0;
-    for (int y = 0; y < HCURSOR; y++)
+    for (int h = 0; h < HCURSOR; h++)
     {
-        int x = 0;
-        for (int i = 0; i < 2; i++)
+        for (int w = 0; w < WCURSOR; w++)
         {
-            uint8_t byte = cursor[y * 2 + i];
-            for (int j = 7; j >= 0; j--)
-            {
-                if (byte & (1 << j))
-                {
-                    draw_pixel(prev_mouse_x + x, prev_mouse_y + y, background_buffer[index]);
-                }
-                index++;
-                x++;
-            }
+            draw_pixel(prev_mouse_x + w, prev_mouse_y + h, background_buffer[HCURSOR*WCURSOR]);
+        }
+    }
+}
+
+void save_cursor_bbufer(int mouse_x, int mouse_y)
+{
+    for (int h = 0; h < HCURSOR; h++)
+    {
+        for (int w = 0; w < WCURSOR; w++)
+        {
+            uint32_t color = return_pixel_color(mouse_x + w, mouse_y + h);
+
+            background_buffer[HCURSOR * WCURSOR] = color;
         }
     }
 }
 
 void draw_mouse(int mouse_x, int mouse_y, uint32_t color)
 {
-    int index = 0;
-    for (int y = 0; y < HCURSOR; y++)
+    for (int h = 0; h < HCURSOR; h++)
     {
-        int x = 0;
-        for (int i = 0; i < 2; i++)
+        for (int w = 0; w < WCURSOR; w++)
         {
-            uint8_t byte = cursor[y * 2 + i];
-            for (int j = 7; j >= 0; j--)
-            {
-                if (byte & (1 << j))
-                {
-                    background_buffer[index] = return_pixel_color(mouse_x + x, mouse_y + y);
-                    draw_pixel(mouse_x + x, mouse_y + y, color);
-                }
-                index++;
-                x++;
-            }
+            draw_pixel(mouse_x + w, mouse_y + h, color);
         }
     }
 }
@@ -90,9 +80,16 @@ void MouseHandler()
         mouse_pos_holder[2] = mouse_prev_x_pos;
         mouse_pos_holder[3] = mouse_prev_y_pos;
 
-        Event event = {EVENT_MOUSE, MOUSE_MOVED, (void*)mouse_pos_holder};
+        clear_mouse_trails(mouse_prev_x_pos, mouse_prev_y_pos);
+        save_cursor_bbufer(mouse_x_pos, mouse_y_pos);
+        draw_mouse(mouse_x_pos, mouse_y_pos, rgba_to_hex(255,255,255,255));
 
-        add_event(event);
+        if (mouse_m1_pressed)
+        {
+            Event event = {EVENT_MOUSE, MOUSE_CLICKED, NULL};
+
+            add_event(event);
+        }
     }
 }
 

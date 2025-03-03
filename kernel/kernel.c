@@ -34,8 +34,6 @@ void main()
 
     init_event_queue();
 
-    print("/root: ");
-
     while (1)
     {
         handle_events();
