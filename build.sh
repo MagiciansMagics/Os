@@ -60,6 +60,10 @@ nasm -f elf "./syscalls/syscall_entry.asm" -o "./bin/syscalls_entry.o"
 
 i386-elf-gcc ${CC_FLAGS} "./syscalls/syscall.c" -o "./bin/syscall.o"
 
+#Gui
+
+i386-elf-gcc ${CC_FLAGS} "./Gui/gui.c" -o "./bin/gui.o"
+
 #final build
 
 #           ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;           #
@@ -84,6 +88,7 @@ i386-elf-ld -T "./linker.ld" -o "./bin/kernel32.elf" "./bin/kernel_entry.o" "./b
     "./bin/event_handler.o"             \
     "./bin/keyboard.o"                  \
     "./bin/mouse.o"                     \
+    "./bin/gui.o"                       \
     --Map="./a_debug/kernel32_map.txt"
 
 

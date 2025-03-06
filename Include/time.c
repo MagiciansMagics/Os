@@ -13,23 +13,23 @@ void timer_phase(int hz)
 
 void timer_handler(regs *r)
 {
-	/* Increment our 'tick count' */
 	timer_ticks++;
 	
 
 	if (timer_ticks % 18 == 0)
 	{
 		seconds++;
-		//kprint(toString(seconds, 10));
 	}
 }
 
 
-void sleep(int milliseconds) {
+void sleep(int milliseconds) 
+{
     int startTicks = timer_ticks;
     int targetTicks = startTicks + (milliseconds * 10 / 1000);
     
-    while (timer_ticks < targetTicks) {
+    while (timer_ticks < targetTicks) 
+	{
         asm volatile("hlt");
     }
 }

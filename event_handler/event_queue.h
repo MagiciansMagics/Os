@@ -15,7 +15,6 @@ typedef enum
     EVENT_NONE,
     EVENT_KEYBOARD,
     EVENT_MOUSE,
-    EVENT_WINDOW,
 } EventType;
 
 typedef enum
@@ -33,12 +32,6 @@ typedef enum
     MOUSE_CLICKED,
     MOUSE_SCROLLED
 } MouseEventType;
-
-typedef enum
-{
-    WINDOW_UPDATE,
-    WINDOW_NEW_APP,
-} WindowEventType;
 
 typedef struct 
 {

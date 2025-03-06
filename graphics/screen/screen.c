@@ -4,27 +4,21 @@
 uint32_t *framebuffer = NULL;
 
 uint32_t front_buffer[WSCREEN * HSCREEN];
+uint32_t back_buffer[WSCREEN * HSCREEN];
 
-void copy_memory(void *dest, const void *src, size_t n)
+void swap_buffers()
 {
-    uint8_t *d = (uint8_t *)dest;
-    const uint8_t *s = (const uint8_t *)src;
-
-    // Copy byte by byte
-    for (size_t i = 0; i < n; i++) 
+    if (memcmp(front_buffer, back_buffer, WSCREEN * HSCREEN * sizeof(uint32_t)) != 0) 
     {
-        d[i] = s[i];
+        memcpy(front_buffer, back_buffer, WSCREEN * HSCREEN * sizeof(uint32_t));
+        memcpy(framebuffer, front_buffer, WSCREEN * HSCREEN * sizeof(uint32_t)); // both of these are mandatory, one copies the backbuffer 
+                                                                                 // to the front buffer and front buffer is copied to frambuffer
     }
 }
 
 void handle_screen()
 {
-    while (1)
-    {
-        front_buffer[10 * 1920 + 10] = rgba_to_hex(255, 255, 255, 255);
-
-        copy_memory(framebuffer, front_buffer, WSCREEN * HSCREEN);
-    }
+    swap_buffers();
 }
 
 void init_screen()
@@ -32,10 +26,13 @@ void init_screen()
     if (!framebuffer)           // basicly just make sure framebuffer is null when setting up
         framebuffer = (uint32_t *)(*(uint32_t *)0x1028);
 
+    memset(front_buffer, 0, WSCREEN * HSCREEN * sizeof(uint32_t));
+    memset(back_buffer, 0, WSCREEN * HSCREEN * sizeof(uint32_t));
+
     clear_screen(rgba_to_hex(0, 0, 0, 255));    
 }
 
 uint32_t *return_framebuffer()
 {
-    return framebuffer;
+    return back_buffer;
 }

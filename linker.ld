@@ -19,6 +19,8 @@ SECTIONS
         *(.data*)
     }
     
+    . = 0x200000;
+
     .bss ALIGN(4K) :
     {
         *(COMMON)

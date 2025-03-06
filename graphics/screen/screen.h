@@ -14,8 +14,9 @@
 #define HSCREEN 1080
 #define BPP     32
 
-void handle_screen();
 void init_screen();
+void swap_buffers();
+void handle_screen();
 uint32_t *return_framebuffer();
 
 #endif

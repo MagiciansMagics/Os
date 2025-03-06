@@ -59,7 +59,7 @@ void put_char(char c, uint32_t color)
             }
         }
     }
-
+    
     print_cursor_x += 12;
 }
 

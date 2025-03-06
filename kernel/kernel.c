@@ -10,6 +10,7 @@
 #include "../Hardware/mouse/mouse.h"
 #include "../event_handler/event_handler.h"
 #include "../event_handler/event_queue.h"
+#include "../Gui/gui.h"
 
 void main()
 {
@@ -34,12 +35,12 @@ void main()
 
     init_event_queue();
 
-    //while (1)
-    //{
-    //    handle_events();
-    //}
+    while (1)
+    {
+        handle_events();
 
-    handle_screen();
+        handle_screen();
+    }
 
     for(;;); // does same thing as in halt.asm
 }

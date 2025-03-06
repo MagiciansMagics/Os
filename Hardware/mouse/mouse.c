@@ -80,9 +80,9 @@ void MouseHandler()
         mouse_pos_holder[2] = mouse_prev_x_pos;
         mouse_pos_holder[3] = mouse_prev_y_pos;
 
-        Event event = {EVENT_MOUSE, MOUSE_MOVED, (void*)mouse_pos_holder};
-
-        add_event(event);
+        clear_mouse_trails(mouse_prev_x_pos, mouse_prev_y_pos);
+        save_cursor_buffer(mouse_x_pos, mouse_y_pos);
+        draw_mouse(mouse_x_pos, mouse_y_pos, rgba_to_hex(255,255,255,255));
     }
 }
 
