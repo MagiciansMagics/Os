@@ -34,10 +34,12 @@ void main()
 
     init_event_queue();
 
-    while (1)
-    {
-        handle_events();
-    }
+    //while (1)
+    //{
+    //    handle_events();
+    //}
+
+    handle_screen();
 
     for(;;); // does same thing as in halt.asm
 }

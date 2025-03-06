@@ -1,4 +1,5 @@
 #include "./syscall.h"
+#include "../graphics/screen/screen.h"
 
 extern void syscall_entry();
 
@@ -38,7 +39,7 @@ int syscall_handler(struct trap_frame *frame)
             return i;
         }
 
-        case SYS_UNLINK:
+        case SYS_RMV:
         {
             char* filename = (char*)frame->ebx;
 

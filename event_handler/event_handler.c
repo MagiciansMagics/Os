@@ -40,9 +40,16 @@ int handle_mouse_events(Event* queue, int index)
 {
     switch (queue[index].subtype)
     {
+        case MOUSE_MOVED:
+        {
+            //int *mouse_pos_ptr = (int*)queue[index].data;
+            //clear_mouse_trails(mouse_pos_ptr[2], mouse_pos_ptr[3]);
+            //save_cursor_buffer(mouse_pos_ptr[0], mouse_pos_ptr[1]);
+            //draw_mouse(mouse_pos_ptr[0], mouse_pos_ptr[1], rgba_to_hex(255,255,255,255));
+            break;
+        }
         case MOUSE_CLICKED:
         {
-            // here make it handle if its currently over a gui and pressing etc.
             break;
         }
     }

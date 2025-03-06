@@ -38,10 +38,6 @@ i386-elf-gcc ${CC_FLAGS} "./Hardware/keyboard/keyboard.c" -o "./bin/keyboard.o"
 
 i386-elf-gcc ${CC_FLAGS} "./Hardware/mouse/mouse.c" -o "./bin/mouse.o"
 
-i386-elf-gcc ${CC_FLAGS} "./Hardware/cpu/cpu.c" -o "./bin/cpu.o"
-
-i386-elf-gcc ${CC_FLAGS} "./terminal/terminal.c" -o "./bin/terminal.o"
-
 #inrerrupts
 
 nasm -f elf "./Interrupts/interrupts.asm" -o "./bin/interrupts.o"
@@ -56,14 +52,6 @@ i386-elf-gcc ${CC_FLAGS} "./Interrupts/isr.c" -o "./bin/isr.o"
 
 i386-elf-gcc ${CC_FLAGS} "./filesystem/filesystem.c" -o "./bin/filesystem.o"
 
-#PCI
-
-i386-elf-gcc ${CC_FLAGS} "./PCI/pci.c" -o "./bin/pci.o"
-
-#Drive
-
-i386-elf-gcc ${CC_FLAGS} "./disk/ata.c" -o "./bin/ata.o"
-
 #Syscalls
 
 i386-elf-gcc ${CC_FLAGS} "./syscalls/syscall_handler.c" -o "./bin/syscall_handler.o"
@@ -77,7 +65,6 @@ i386-elf-gcc ${CC_FLAGS} "./syscalls/syscall.c" -o "./bin/syscall.o"
 #           ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;           #
 
 i386-elf-ld -T "./linker.ld" -o "./bin/kernel32.elf" "./bin/kernel_entry.o" "./bin/kernel.o" \
-    "./bin/cpu.o"                       \
     "./bin/IoPorts.o"                   \
     "./bin/string.o"                    \
     "./bin/malloc.o"                    \
@@ -85,12 +72,10 @@ i386-elf-ld -T "./linker.ld" -o "./bin/kernel32.elf" "./bin/kernel_entry.o" "./b
     "./bin/idt.o"                       \
     "./bin/irq.o"                       \
     "./bin/isr.o"                       \
-    "./bin/ata.o"                       \
     "./bin/syscalls_entry.o"            \
     "./bin/syscall_handler.o"           \
     "./bin/syscall.o"                   \
     "./bin/filesystem.o"                \
-    "./bin/pci.o"                       \
     "./bin/screen.o"                    \
     "./bin/time.o"                      \
     "./bin/draw.o"                      \
@@ -99,7 +84,6 @@ i386-elf-ld -T "./linker.ld" -o "./bin/kernel32.elf" "./bin/kernel_entry.o" "./b
     "./bin/event_handler.o"             \
     "./bin/keyboard.o"                  \
     "./bin/mouse.o"                     \
-    "./bin/terminal.o"                  \
     --Map="./a_debug/kernel32_map.txt"
 
 

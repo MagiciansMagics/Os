@@ -13,8 +13,24 @@ void* memset(void* dest, unsigned char val, size_t count)
 
 void *memcpy(void *dst, const void *src, uint32_t len)
 {
-    for (uint32_t i = 0; i < len; i++)
-        ((uint8_t *)dst)[i] = ((uint8_t *)src)[i];
+    uint32_t *dword_dst = (uint32_t *)dst;
+    const uint32_t *dword_src = (const uint32_t *)src;
+
+    while (len >= 4) {
+        *dword_dst = *dword_src;
+        dword_dst++;
+        dword_src++;
+        len -= 4;
+    }
+
+    uint8_t *byte_dst = (uint8_t *)dword_dst;
+    const uint8_t *byte_src = (const uint8_t *)dword_src;
+    while (len > 0) {
+        *byte_dst = *byte_src;
+        byte_dst++;
+        byte_src++;
+        len--;
+    }
 
     return dst;
 }

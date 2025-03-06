@@ -3,7 +3,9 @@
 #include "../../event_handler/event_queue.h"
 
 uint8_t mousePacket[4];
-int mouse_x_pos, mouse_y_pos, mouse_prev_x_pos, mouse_prev_y_pos, mouse_m1_pressed = 0;
+int mouse_x_pos, mouse_y_pos = -30;
+
+int mouse_prev_x_pos, mouse_prev_y_pos, mouse_m1_pressed = 0;
 
 uint8_t mouseData;
 uint8_t mouseCycle;
@@ -11,26 +13,24 @@ uint8_t mouseCycle;
 int mouse_pos_holder[4] = {};
 uint32_t background_buffer[HCURSOR * WCURSOR];
 
+void save_cursor_buffer(int mouse_x, int mouse_y)
+{
+    for (int h = 0; h < HCURSOR; h++)
+    {
+        for (int w = 0; w < WCURSOR; w++)
+        {
+            background_buffer[h * WCURSOR + w] = return_pixel_color(mouse_x + w, mouse_y + h);
+        }
+    }
+}
+
 void clear_mouse_trails(int prev_mouse_x, int prev_mouse_y)
 {
     for (int h = 0; h < HCURSOR; h++)
     {
         for (int w = 0; w < WCURSOR; w++)
         {
-            draw_pixel(prev_mouse_x + w, prev_mouse_y + h, background_buffer[HCURSOR*WCURSOR]);
-        }
-    }
-}
-
-void save_cursor_bbufer(int mouse_x, int mouse_y)
-{
-    for (int h = 0; h < HCURSOR; h++)
-    {
-        for (int w = 0; w < WCURSOR; w++)
-        {
-            uint32_t color = return_pixel_color(mouse_x + w, mouse_y + h);
-
-            background_buffer[HCURSOR * WCURSOR] = color;
+            draw_pixel(prev_mouse_x + w, prev_mouse_y + h, background_buffer[h * WCURSOR + w]);
         }
     }
 }
@@ -80,16 +80,9 @@ void MouseHandler()
         mouse_pos_holder[2] = mouse_prev_x_pos;
         mouse_pos_holder[3] = mouse_prev_y_pos;
 
-        clear_mouse_trails(mouse_prev_x_pos, mouse_prev_y_pos);
-        save_cursor_bbufer(mouse_x_pos, mouse_y_pos);
-        draw_mouse(mouse_x_pos, mouse_y_pos, rgba_to_hex(255,255,255,255));
+        Event event = {EVENT_MOUSE, MOUSE_MOVED, (void*)mouse_pos_holder};
 
-        if (mouse_m1_pressed)
-        {
-            Event event = {EVENT_MOUSE, MOUSE_CLICKED, NULL};
-
-            add_event(event);
-        }
+        add_event(event);
     }
 }
 

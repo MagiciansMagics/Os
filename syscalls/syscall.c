@@ -22,9 +22,9 @@ int syscall_creat(char* filename, int flags)
     return syscall(SYS_CREAT, (unsigned int)filename, flags, 0);
 }
 
-int syscall_unlink(char* filename)
+int syscall_rmv(char* filename)
 {
-    return syscall(SYS_UNLINK, (unsigned int)filename, 0, 0);
+    return syscall(SYS_RMV, (unsigned int)filename, 0, 0);
 }
 
 int syscall_mkdir(char* dirname, int permissions)
