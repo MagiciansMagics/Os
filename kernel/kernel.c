@@ -35,6 +35,8 @@ void main()
 
     init_event_queue();
 
+    init_gui();
+
     while (1)
     {
         handle_events();

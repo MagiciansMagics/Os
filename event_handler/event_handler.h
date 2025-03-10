@@ -8,6 +8,7 @@
 #include "../filesystem/filesystem.h"
 #include "../Hardware/mouse/mouse.h"
 #include "../graphics/screen/screen.h"
+#include "../Gui/gui.h"
 
 #pragma once
 

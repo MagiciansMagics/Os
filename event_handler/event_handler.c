@@ -42,6 +42,9 @@ int handle_mouse_events(Event* queue, int index)
     {
         case MOUSE_CLICKED:
         {
+            int* mouse_pos_ptr = (int*)queue[index].data;
+
+            handle_gui_dragging(mouse_pos_ptr[0], mouse_pos_ptr[1], mouse_pos_ptr[2], mouse_pos_ptr[3]);
             break;
         }
     }

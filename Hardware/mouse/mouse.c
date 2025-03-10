@@ -83,6 +83,12 @@ void MouseHandler()
         clear_mouse_trails(mouse_prev_x_pos, mouse_prev_y_pos);
         save_cursor_buffer(mouse_x_pos, mouse_y_pos);
         draw_mouse(mouse_x_pos, mouse_y_pos, rgba_to_hex(255,255,255,255));
+
+        if (mouse_m1_pressed)
+        {
+            Event event = {EVENT_MOUSE, MOUSE_CLICKED, (void*)mouse_pos_holder};
+            add_event(event);
+        }
     }
 }
 

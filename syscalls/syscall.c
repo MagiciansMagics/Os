@@ -17,6 +17,8 @@ int syscall_exit(int error_code)
     return syscall(SYS_EXIT, error_code, 0, 0);
 }
 
+// Filesystem stuff
+
 int syscall_creat(char* filename, int flags)
 {
     return syscall(SYS_CREAT, (unsigned int)filename, flags, 0);

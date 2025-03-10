@@ -7,6 +7,7 @@
 #include "../../Include/IoPorts.h"
 #include "../../Interrupts/irq.h"
 #include "../../graphics/draw/draw.h"
+#include "../../event_handler/event_queue.h"
 
 #pragma once
 

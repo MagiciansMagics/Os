@@ -8,12 +8,9 @@ uint32_t back_buffer[WSCREEN * HSCREEN];
 
 void swap_buffers()
 {
-    if (memcmp(front_buffer, back_buffer, WSCREEN * HSCREEN * sizeof(uint32_t)) != 0) 
-    {
-        memcpy(front_buffer, back_buffer, WSCREEN * HSCREEN * sizeof(uint32_t));
-        memcpy(framebuffer, front_buffer, WSCREEN * HSCREEN * sizeof(uint32_t)); // both of these are mandatory, one copies the backbuffer 
-                                                                                 // to the front buffer and front buffer is copied to frambuffer
-    }
+    memcpy(front_buffer, back_buffer, WSCREEN * HSCREEN * sizeof(uint32_t));
+    memcpy(framebuffer, front_buffer, WSCREEN * HSCREEN * sizeof(uint32_t)); // both of these are mandatory, one copies the backbuffer 
+                                                                             // to the front buffer and front buffer is copied to frambuffer
 }
 
 void handle_screen()
