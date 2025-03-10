@@ -7,7 +7,7 @@
 <li>Keyboard: Done</li><br>
 <li>Event-Driven Architecture: Done</li><br>
 <li>Timer: Done</li><br>
-<li>Mouse: Done/li><br>
+<li>Mouse: Done</li><br>
 <li>Filesystem: Done</li><br>
 <li>Disk Io services: Undone</li><br>
 <li>Syscalls: done</li><br>
