@@ -1,4 +1,4 @@
-<h1>My os project</h1>
+<h1>My os project. PROJECT NOT CONTINUED CURRENTLY WORKING ON NEW OPERATING SYSTEM OF MINE!</h1>
 
 <li>Support full RGBA: Done</li><br>
 <li>Protected mode(32bit): Done</li><br>
@@ -16,3 +16,4 @@
 <h4>Credits to mpetch for fixing part of my "build.sh" file. Find it at: https://www.reddit.com/r/osdev/comments/1ikv5ma/pm32_bit_confusing_c_printing_problem/</h4><br>
 <h4>Credits to monocasa for fixing my "syscall.c". Find it at: https://www.reddit.com/r/osdev/comments/1iy2h60/syscall_gives_wrong_system_call_number/</h4><br>
 <h4>Credits to mpetch for helping with my "linker.ld" file. Find it at: https://www.reddit.com/r/osdev/comments/1j4ctvt/faulty_memcpy_screen_tearing/</h4><br>
+
